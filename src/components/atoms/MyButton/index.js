@@ -1,7 +1,13 @@
 import { React, PropTypes } from "libraries";
 
 const MyButton = ({ title }) => {
-  return <button>{title}</button>;
+  const style = {
+    margin: '5px'
+  }
+  
+  return (
+    <button style={style}>{title}</button>
+  )   
 };
 
 MyButton.propTypes = {
@@ -9,7 +15,7 @@ MyButton.propTypes = {
 };
 
 MyButton.defaultProps = {
-  title: ""
+  title: "button"
 };
 
 export default MyButton;

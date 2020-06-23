@@ -1,4 +1,5 @@
-import { combineReducers, createStore, thunk, applyMiddleware } from "libraries";
+import { combineReducers, createStore} from "libraries";
+// import { combineReducers, createStore, thunk, applyMiddleware } from "libraries";
 import post from './post/reducer';
 import profile from './profile/reducer';
 
@@ -14,8 +15,8 @@ export const reducer = combineReducers({
  * store
  */
 export const store = createStore(
-  reducer,
-  applyMiddleware(thunk)
+  reducer
+  // ,applyMiddleware(thunk)
 );
 
 /**

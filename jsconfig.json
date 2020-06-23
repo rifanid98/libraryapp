@@ -40,6 +40,9 @@
       ],
       "services": [
         "./services"
+      ],
+      "links": [
+        "./links"
       ]
     }
   }

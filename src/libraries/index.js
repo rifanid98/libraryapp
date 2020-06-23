@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ReactDOM from 'react-dom';
 import PropTypes from "prop-types";
 import moment from "moment";
 import axios from "axios";
 import thunk from "redux-thunk";
 
-export { React, ReactDOM, PropTypes, moment, axios, thunk };
+export { React, Fragment, ReactDOM, PropTypes, moment, axios, thunk };
 
 export * from "react";
 export * from "react-router-dom";

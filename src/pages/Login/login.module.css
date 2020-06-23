@@ -1,0 +1,239 @@
+@media (min-width: 768px) and (max-width: 992px) {
+    .sidebar {
+        padding-left: 48px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        padding-left: 20% !important;
+    }
+    .sidebar .sidebarHeader {
+        margin-top: 20% !important;
+    }
+
+    .sidebar .sidebarHeader small {
+        margin-top: 60px;
+        margin-left: -100px;
+    }
+
+    .sidebar .sidebarFooter {
+        bottom: -150px !important;
+        left: -60px !important;
+    }
+}
+
+@media (max-width: 657px) {
+    .contentFooter {
+         bottom: -180px !important;
+    }
+
+    .sidebar {
+        padding-left: 18% !important;
+    }
+}
+
+@media (max-width: 590px) {
+    .sidebar {
+        padding-left: none !important;
+    }
+}
+
+@media (max-width: 467px) {
+    .caption {
+        padding-top: 50px !important;
+    }
+
+    .caption p {
+        line-height: 100%;
+    }
+
+    .caption p:nth-child(2) {
+        margin-top: -10px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .caption .captionQuote p:nth-child(2) {
+        margin-top: 30px !important;
+    }
+
+    .contentFooter {
+        bottom: -170px !important;
+    }
+
+    .sidebar {
+        padding-left: 0px !important;
+    }
+
+    .sidebar .sidebarFooter {
+        bottom: -150px !important;
+        left: 0px !important;
+    }
+}
+
+@media (max-width: 385px) {
+    .sidebar .sidebarHeader {
+        margin-top: 35% !important;
+    }
+
+    .sidebar .sidebarHeader small {
+        margin-top: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .sidebar .sidebarFooter {
+        bottom: -120px !important;
+        left: 0px !important;
+    }
+}
+
+.container {
+    /* text-align: left; */
+    height: 100%;
+    background: url('../../assets/images/img-background3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Content */
+.content {
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+}
+
+.caption {
+    text-align: center;
+    padding-top: 120px;
+}
+
+.caption .title p {
+    text-shadow: 2px 2px 3px #404040;
+    margin-top: 20px;
+    font-size: 50px;
+    color: white;
+}
+
+.caption p:nth-child(2) {
+    margin-top: -30px;
+    margin-bottom: -65px;
+}
+
+.caption .captionQuote p {
+    text-shadow: 2px 2px 3px #404040;
+    color: white;
+    font-size: 18px;
+}
+
+.caption .captionQuote p:nth-child(2) {
+    margin-top: 20px;
+}
+
+.contentFooter {
+    text-align: center;
+    width: 100%;
+    height: 20px;
+    position: relative;
+    bottom: -200px;
+    color: white;
+    font-size: 12px;
+}
+
+.contentFooter span {
+    text-align: center;
+    width: 100%;
+}
+
+.contentFooter a {
+    text-shadow: 2px 2px 3px #404040;
+    color: #cfefdf;
+}
+
+.contentFooter a:hover {
+    color: #cfefdf;
+    text-decoration: underline;
+}
+
+
+/* Sidebar */
+.sidebar {
+    /* max-width: 30% !important; */
+    background-color: #FFF;
+    height: 100vh;
+}
+
+
+.sidebar .sidebarHeader {
+    text-align: left;
+    margin-top: 35%;
+    padding: 0 20%;;
+}
+
+.sidebar .sidebarHeader p {
+    color: #404040;
+    font-size: 40px;
+    margin-bottom: 5px;
+}
+
+.sidebar .sidebarHeader small {
+    color: #404040;
+    font-size: 12px;
+    line-height: 100%;
+}
+
+.sidebar .sidebarContent {
+    text-align: left;
+    margin-top: 30px;
+    padding: 0 20%;
+}
+
+.sidebar .sidebarContent input[type=email],
+.sidebar .sidebarContent input[type=password] {
+    margin-top: -10px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    font-size: 15px;
+    font-weight: normal;
+    border-radius: 0px;
+}
+
+.sidebar .sidebarContent input[type=email]:focus,
+.sidebar .sidebarContent input[type=password]:focus {
+    box-shadow: none;
+}
+
+.sidebar .sidebarContent input[type=checkbox] {
+    margin-top: -15px;
+}
+
+.sidebar .sidebarContent span {
+    margin-top: -15px;
+    font-size: 10px;
+}
+
+.sidebar .sidebarContent label {
+    font-size: 13px;
+}
+
+.sidebar button {
+    font-size: 10px;
+    padding: 5px 20px;
+    margin-top: 25px;
+    margin-right: 10px;
+}
+
+.sidebar .buttonLogin {
+    background-color: #222222;
+}
+
+.sidebar .sidebarFooter {
+    position: relative;
+    bottom: -100px;
+    text-align: center;
+}
+
+.sidebar .sidebarFooter span {
+    font-size: 10px;
+    color: #404040;
+    width: 80%;
+}

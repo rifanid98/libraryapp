@@ -4,7 +4,7 @@ const constants = {
   dev: {
     url: {
       api: "",
-      assets: "",
+      assets: "../assets",
       origin: ""
     }
   },

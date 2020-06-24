@@ -1,0 +1,230 @@
+@media (max-width: 767px) {
+    .sidebar .sidebarHeader {
+        margin-top: 15% !important;
+    }
+
+    .caption .captionQuote p {
+        margin-top: 10%;
+    }
+
+    .contentFooter {
+        margin-top: 32% !important;
+    }
+
+    .sidebar .sidebarHeader small {
+        margin-top: 60px;
+        margin-left: -163px ;
+    }
+
+    .sidebar .sidebarFooter {
+        margin-top: 10% !important;
+    }
+}
+
+@media (max-width: 657px) {
+    .contentFooter {
+        margin-top: 40% !important;
+    }
+
+}
+
+@media (max-width: 540px) {
+    .sidebar .sidebarHeader small {
+        margin-top: -3px !important;
+        margin-left: 0px !important;
+    }
+}
+
+@media (max-width: 590px) {
+    .sidebar {
+        padding-left: none !important;
+    }
+}
+
+@media (max-width: 456px) {
+    .sidebar .sidebarHeader small {
+        margin-top: -10px !important;
+        margin-left: 1px !important;
+    }
+}
+
+@media (max-width: 385px) {
+    .sidebar .sidebarHeader {
+        margin-top: 17% !important;
+    }
+
+    .sidebar .sidebarFooter {
+        margin-top: 20% !important;
+    }
+}
+
+.container {
+    /* text-align: left; */
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Content */
+.content {
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+}
+
+.caption {
+    text-align: center;
+    padding-top: 10%;
+}
+
+.caption .title p {
+    text-shadow: 2px 2px 3px #404040;
+    margin-top: 20px;
+    font-size: 50px;
+    color: white;
+    font-weight: 800;
+    font-family: 'Montserrat',
+    sans-serif;
+}
+
+.caption p:nth-child(2) {
+    margin-top: -30px;
+    margin-bottom: -65px;
+}
+
+.caption .captionQuote p {
+    text-shadow: 2px 2px 3px #404040;
+    color: white;
+    font-size: 18px;
+    font-family: 'Merriweather',
+    serif;
+}
+
+.caption .captionQuote p:nth-child(2) {
+    margin-top: 20px;
+}
+
+.contentFooter {
+    text-align: center;
+    margin-top: 25%;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'Montserrat',
+    sans-serif;
+    font-weight: 700;
+    color: white;
+}
+
+.contentFooter span {
+    text-align: center;
+    width: 100%;
+}
+
+.contentFooter a {
+    text-shadow: 2px 2px 3px #404040;
+    color: #cfefdf;
+}
+
+.contentFooter a:hover {
+    color: #cfefdf;
+    text-decoration: underline;
+}
+
+
+/* Sidebar */
+.sidebar {
+    /* max-width: 30% !important; */
+    background-color: #FFF;
+    height: 100vh;
+    text-align: center;
+}
+
+
+.sidebar .sidebarHeader {
+    text-align: left;
+    /* margin-top: 35%; */
+    margin-top: 15%;
+    padding: 0 20%;
+}
+
+.sidebar .sidebarHeader p {
+    color: #404040;
+    font-size: 40px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-family: 'Montserrat',
+    sans-serif;
+}
+
+.sidebar .sidebarHeader small {
+    color: #404040;
+    font-size: 13px;
+    line-height: 100%;
+    font-family: 'Open Sans',
+    sans-serif;
+}
+
+.sidebar .sidebarContent {
+    text-align: left;
+    margin-top: 30px;
+    padding: 0 20%;
+}
+
+.sidebar .sidebarContent .form {
+    width: 100%;
+}
+
+.sidebar .sidebarContent input[type=text],
+.sidebar .sidebarContent input[type=email],
+.sidebar .sidebarContent input[type=password] {
+    margin-top: -10px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    font-size: 15px;
+    font-weight: normal;
+    border-radius: 0px;
+    font-family: 'Nunito',
+    sans-serif;
+}
+
+.sidebar .sidebarContent input[type=text]:focus,
+.sidebar .sidebarContent input[type=email]:focus,
+.sidebar .sidebarContent input[type=password]:focus {
+    box-shadow: none;
+}
+
+.sidebar .sidebarContent input[type=checkbox] {
+    margin-top: -15px;
+}
+
+.sidebar .sidebarContent .span {
+    margin-top: -15px;
+    font-size: 10px;
+}
+
+.sidebar .sidebarContent .label {
+    font-size: 13px;
+    font-family: 'Nunito',
+    sans-serif;
+}
+
+.sidebar button {
+    font-size: 10px;
+    padding: 5px 20px;
+    margin-top: 25px;
+    margin-right: 10px;
+}
+
+.sidebar .buttonLogin {
+    background-color: #222222;
+}
+
+.sidebar .sidebarFooter {
+    text-align: center;
+    margin-top: 13%;
+    padding: 0 20%;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+}

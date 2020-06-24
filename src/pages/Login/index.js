@@ -72,7 +72,7 @@ export default class Login extends Component {
 										</Label>
 									</FormGroup>
 									<Button className={style.buttonLogin}>Login</Button>
-									<Button className={style.buttonSignup} outline onClick={(event) => { event.preventDefault(); this.props.history.push('/signup') }}>Signup</Button>
+									<Button className={style.buttonSignup} outline onClick={(event) => { event.preventDefault(); this.props.history.push('/signup') }}>Sign Up</Button>
 								</Form>
 							</Row>
 							<Row className={style.sidebarFooter}>

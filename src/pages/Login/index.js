@@ -48,7 +48,7 @@ export default class Login extends Component {
 							<small>Welcome back! Please login to your account.</small>
 					</Row>
 					<Row className={style.sidebarContent}>
-						<Form>
+						<Form action="#">
 							<FormGroup>
 								<Label for="email">Email Address</Label>
 								<Input type="email" name="email" id="email" placeholder="example@domain.com" />
@@ -65,7 +65,7 @@ export default class Login extends Component {
 								</Label>
 							</FormGroup>
 							<Button className={style.buttonLogin}>Login</Button>
-							<Button outline color="secondary">Signup</Button>
+							<Button className={style.buttonSignup} outline onClick={(event) => {event.preventDefault(); this.props.history.push('/signup')}}>Signup</Button>
 						</Form>
 					</Row>
 					<Row className={style.sidebarFooter}>

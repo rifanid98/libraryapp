@@ -1,17 +1,33 @@
-import { Homepage, About } from "pages";
+import React from 'react'
+import { Login } from 'pages';
+
+// import { Login, Signup } from "pages";
+
+const notfound = () => {
+  return (
+    <p>Not Found!</p>
+  )
+}
 
 const appRoutes = [
+ 
   {
-    name: "About",
-    component: About,
+    name: "Login",
+    component: Login,
     exact: true,
-    path: "/about"
+    path: "/login"
   },
+  // {
+  //   name: "Sign Up",
+  //   component: Signup,
+  //   exact: true,
+  //   path: "/signup"
+  // },
   {
-    name: "Homepage",
-    component: Homepage,
-    exact: true,
-    path: "/"
+    name: "Not Found",
+    component: notfound,
+    exact: false,
+    path: "*"
   }
 ];
 

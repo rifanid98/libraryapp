@@ -1,5 +1,6 @@
-import { combineReducers, createStore} from "libraries";
-// import { combineReducers, createStore, thunk, applyMiddleware } from "libraries";
+import { combineReducers, createStore } from 'redux';
+// import { combineReducers, createStore, thunk, applyMiddleware } from "redux";
+
 import post from './post/reducer';
 import profile from './profile/reducer';
 

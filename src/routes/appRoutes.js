@@ -1,7 +1,7 @@
 import React from 'react'
-import { Login } from 'pages';
+import {Login } from '../pages'
 
-// import { Login, Signup } from "pages";
+// import { Login, Signup } from "../pages";
 
 const notfound = () => {
   return (

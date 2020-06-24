@@ -1,6 +1,6 @@
-import { API } from 'configs';
-import { handleAsync } from 'utils';
-import { store, setProfile } from 'modules';
+import { API } from '../../configs/';
+import { handleAsync } from '../../utils';
+import { store, setProfile } from '../../modules';
 
 const { dispatch } = store;
 

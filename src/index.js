@@ -1,8 +1,12 @@
-import { React, ReactDOM, Provider } from 'libraries';
-import { store } from 'modules';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './modules/redux';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   // <React.StrictMode>

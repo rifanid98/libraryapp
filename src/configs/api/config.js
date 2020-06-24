@@ -1,13 +1,14 @@
-import { axios } from "libraries";
+import Axios from "axios";
+
 import {
   getPath,
   getCustomUrl,
   createUrlParamFromObj,
   getContentType,
   createHeader
-} from "utils";
+} from "../../utils";
 
-export const apiInstance = axios.create({
+export const apiInstance = Axios.create({
   baseURL: "",
   timeout: 60000,
   validateStatus: status => status >= 200 && status < 300

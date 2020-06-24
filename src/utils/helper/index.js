@@ -1,4 +1,4 @@
-import { moment } from "libraries";
+import moment from "moment";
 
 export const getPath = (path = "") => (path ? `/${path}` : "");
 

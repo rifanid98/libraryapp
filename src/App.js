@@ -1,6 +1,9 @@
-import { React, BrowserRouter as Router, Switch, Route} from 'libraries';
-import { appRoutes, userRoutes } from 'routes';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { appRoutes, userRoutes } from './routes';
+
 import './App.css';
+
 
 const App = () => {
   return (

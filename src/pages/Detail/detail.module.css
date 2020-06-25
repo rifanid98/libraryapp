@@ -1,0 +1,128 @@
+@media (max-width: 767px) {
+   
+}
+
+@media (max-width: 657px) {
+  
+}
+
+@media (max-width: 590px) {
+   
+}
+
+@media (max-width: 576px) {
+    .description .status {
+        display: block !important;
+        /* background-color: teal; */
+        text-align: left !important;
+        margin: 0px !important;
+        margin-top: -70px !important;
+        margin-left: 3px !important;
+    }
+}
+
+@media (max-width: 456px) {
+   
+}
+
+@media (max-width: 385px) {
+   
+}
+
+.container {
+    height: 100%;
+    /* background: url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80'); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0px !important;
+}
+
+
+/* Headline */
+.headline {
+    padding: 0px !important;
+}
+
+.headline .jumbotron {
+    background-size: cover !important;
+    height: 50vh !important;
+}
+
+/* Decription */
+
+.description {
+    padding: 0 100px 50px 100px!important;
+}
+
+.description .title {
+    margin-bottom: 35px;
+}
+
+.description .title span {
+    color: white;
+    background-color: #e4ba33;
+    padding: 5px 20px;
+    border-radius: 20px;
+}
+
+.description .title h1 {
+    font-family: 'Open Sans',
+    sans-serif;
+    font-weight: 700;
+    margin-bottom: -5px !important;
+}
+
+.description .title small {
+    margin-left: 3px;
+    font-family: 'Open Sans',
+    sans-serif;
+}
+
+.description .status {
+    /* display: inline-flex;
+    align-items: center;
+    justify-content: center; */
+    text-align: right;
+}
+
+.description .status p {
+    margin-top: 40px;
+    color: #99d815;
+    font-family: 'Open Sans',
+    sans-serif;
+    font-weight: 800;
+}
+
+.description .text {
+    /* padding: 0px !important; */
+    font-family: 'Open Sans',
+    sans-serif;
+    text-align: justify;
+}
+
+.borrow {
+    text-align: center;
+    padding-right: 50px !important;
+    margin-bottom: 50px;
+}
+
+.borrow .image {
+    margin: auto;
+    border-radius: 14px;
+    width: 200px;
+    height: 250px;
+    margin-bottom: 50px;
+}
+
+.borrow .buttonWrapper {
+    margin: auto;
+}
+
+.borrow .button {
+    background-color: #e4ba33;
+    padding: 10px 40px;
+    border: none;
+    font-family: 'Montserrat',
+    sans-serif;
+    font-weight: 700;
+}

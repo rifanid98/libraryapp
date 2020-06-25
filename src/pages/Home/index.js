@@ -8,22 +8,29 @@ import {
 	Col, 
 	Row, 
 	
-	Form, 
-	FormGroup, 
-	Label, 
-	Input, 
-	Button, 
+	// Form, 
+	// FormGroup, 
+	// Label, 
+	// Input, 
+	// Button, 
 	
-	NavLink, NavItem, Nav,
+	// NavLink, NavItem, 
+	
+	Nav,
 	Navbar, NavbarToggler, 
-	NavbarBrand, NavbarText,
+	NavbarBrand, 
+	
+	// NavbarText,
 	
 	Collapse, 
 	UncontrolledDropdown, 
 	DropdownToggle, DropdownMenu, DropdownItem,
 
-	Card, CardImg, CardText, CardBody,
-	CardTitle, CardSubtitle
+	Card, 
+	// CardImg, 
+	CardText, CardBody,
+	CardTitle, 
+	// CardSubtitle
  } from 'reactstrap';
 import $ from 'jquery';
 
@@ -251,7 +258,7 @@ export default class Home extends Component {
 								<p>Book Lists</p>
 								<Row>
 									
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
 										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
 											<div className={style.imgWrapper}>
 											</div>
@@ -261,7 +268,7 @@ export default class Home extends Component {
 											</CardBody>
 										</Card>
 									</Col>
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
 										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
 											<div className={style.imgWrapper}>
 											</div>
@@ -271,7 +278,7 @@ export default class Home extends Component {
 											</CardBody>
 										</Card>
 									</Col>
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
 										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
 											<div className={style.imgWrapper}>
 											</div>
@@ -281,7 +288,7 @@ export default class Home extends Component {
 											</CardBody>
 										</Card>
 									</Col>
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
 										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
 											<div className={style.imgWrapper}>
 											</div>
@@ -291,7 +298,7 @@ export default class Home extends Component {
 											</CardBody>
 										</Card>
 									</Col>
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
 										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
 											<div className={style.imgWrapper}>
 											</div>

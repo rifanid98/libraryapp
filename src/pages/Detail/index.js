@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-import { Container, Col, Row, FormGroup, Label, Input, Button, Form, Jumbotron } from 'reactstrap';
+import { Container, Col, Row, 
+	
+	// FormGroup, Label, Input, 
+	
+	Button, 
+	
+	// Form, 
+	
+	Jumbotron } from 'reactstrap';
 
 import style from './detail.module.css';
 

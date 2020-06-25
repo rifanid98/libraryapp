@@ -1,34 +1,42 @@
+// library
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+
+// bootstrap
 import { 
 	Container, 
 	Col, 
 	Row, 
 	
+	Form, 
 	FormGroup, 
 	Label, 
 	Input, 
 	Button, 
-	Form, 
 	
-	NavLink,
-	NavItem,
-	Nav,
+	NavLink, NavItem, Nav,
+	Navbar, NavbarToggler, 
+	NavbarBrand, NavbarText,
+	
+	Collapse, 
+	UncontrolledDropdown, 
+	DropdownToggle, DropdownMenu, DropdownItem,
 
-	Collapse,
-	Navbar,
-	NavbarToggler,
-	NavbarBrand,
-	UncontrolledDropdown,
-	DropdownToggle,
-	DropdownMenu,
-	DropdownItem,
-	NavbarText
+	Card, CardImg, CardText, CardBody,
+	CardTitle, CardSubtitle
  } from 'reactstrap';
 import $ from 'jquery';
+
+// fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
 
+// slider
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// custom style
 import style from './home.module.css';
 
 export default class Home extends Component {
@@ -37,7 +45,15 @@ export default class Home extends Component {
 		super(props)
 		this.state = {
 			isOpen: false,
-			sidebarOpened: false
+			sidebarOpened: false,
+
+			oldSlide: 0,
+			activeSlide: 0,
+			activeSlide2: 0,
+
+			content: {
+				width: 0
+			}
 		}
 	}
 	
@@ -58,7 +74,43 @@ export default class Home extends Component {
 			})
 	}
 
+	updateDimensions = () => {
+		this.setState({ 
+			...this.state,
+			content: {
+				width: $('#content').width()
+			}
+		}, () => {
+				$('#navbar').width(this.state.content.width);
+		});
+	};
+
+	componentDidMount() {
+		window.addEventListener('resize', this.updateDimensions);
+		
+		const contentWidth = $('#content').width();
+		$('#navbar').width(contentWidth);
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateDimensions);
+	}
+
 	render() {
+		const settings = {
+			dots: true,
+			infinite: true,
+			speed: 1000,
+			slidesToShow: 1,
+			slidesToScroll: 1,
+			// beforeChange: (current, next) =>
+			// 	console.log(current),
+			// afterChange: current => this.setState({ activeSlide2: current })
+			beforeChange: (current, next) =>
+				this.setState({ oldSlide: current, activeSlide: next }),
+			afterChange: current => this.setState({ activeSlide2: current })
+		};
+
 		return (
 			<Container fluid className={style.container}>
 				<Row classID={style.wrapper}>
@@ -76,7 +128,7 @@ export default class Home extends Component {
 								{/* Profile Avatar */}
 								<Row>
 									<Col className={style.profileAvatar}>
-										<img src="https://via.placeholder.com/150" alt=""/>
+										<img src="http://localhost:3000/avatar.jpeg" alt=""/>
 									</Col>
 								</Row>
 								{/* Profile Name */}
@@ -100,15 +152,16 @@ export default class Home extends Component {
 					</div>
 
 					{/* Content */}
-					<Col className={style.content}>
+					<Col className={style.content} id="content">
+						{/* Navbar */}
 						<Row>
-							<Col md="12" style={{padding: '0px'}}>
-								<Navbar color="white" light expand="md" fixed="">
+							<Col style={{padding: '0px'}}>
+								<Navbar color="white" light expand="md" className={style.navbar} id="navbar">
 									<div className={style.sidebarToggle2} onClick={this.toggleSidebar}>
 										<FontAwesomeIcon icon={faBars} className={style.sidebarToggleIcon}/>
 									</div>
 									<NavbarBrand href="/" id={style.navbarBrandTop}>
-										LibraryLibrary
+										<img src="http://localhost:3000/book.png" alt=""/>Library
 									</NavbarBrand>
 									<NavbarToggler onClick={this.toggle} style={{border: 'none'}} />
 									<Collapse isOpen={this.state.isOpen} navbar>
@@ -150,9 +203,105 @@ export default class Home extends Component {
 										</form>
 									</Collapse>
 									<NavbarBrand href="/" id={style.navbarBrandBottom}>
-										LibraryLibrary
+										<img src="http://localhost:3000/book.png" alt=""/>Library
 									</NavbarBrand>
 								</Navbar>
+							</Col>
+						</Row>
+						{/* slider */}
+						<Row>
+							<Col className={style.slider}>
+								<div>
+									<h2>beforeChange and afterChange hooks</h2>
+									<p>
+										BeforeChange => oldSlide: <strong>{this.state.oldSlide}</strong>
+									</p>
+									<p>
+										BeforeChange => activeSlide: <strong>{this.state.activeSlide}</strong>
+									</p>
+									<p>
+										AfterChange => activeSlide: <strong>{this.state.activeSlide2}</strong>
+									</p>
+									<Slider {...settings}>
+										<div>
+											<h3>1</h3>
+										</div>
+										<div>
+											<h3>2</h3>
+										</div>
+										<div>
+											<h3>3</h3>
+										</div>
+										<div>
+											<h3>4</h3>
+										</div>
+										<div>
+											<h3>5</h3>
+										</div>
+										<div>
+											<h3>6</h3>
+										</div>
+									</Slider>
+								</div>
+							</Col>
+						</Row>
+						{/* Book Lists */}
+						<Row>
+							<Col className={style.bookLists}>
+								<p>Book Lists</p>
+								<Row>
+									
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+											<div className={style.imgWrapper}>
+											</div>
+											<CardBody className={style.cardBody}>
+												<CardTitle className={style.cardTitle}>Card title</CardTitle>
+												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
+											</CardBody>
+										</Card>
+									</Col>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+											<div className={style.imgWrapper}>
+											</div>
+											<CardBody className={style.cardBody}>
+												<CardTitle className={style.cardTitle}>Card title</CardTitle>
+												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
+											</CardBody>
+										</Card>
+									</Col>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+											<div className={style.imgWrapper}>
+											</div>
+											<CardBody className={style.cardBody}>
+												<CardTitle className={style.cardTitle}>Card title</CardTitle>
+												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
+											</CardBody>
+										</Card>
+									</Col>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+											<div className={style.imgWrapper}>
+											</div>
+											<CardBody className={style.cardBody}>
+												<CardTitle className={style.cardTitle}>Card title</CardTitle>
+												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
+											</CardBody>
+										</Card>
+									</Col>
+									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/login') }}>
+										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+											<div className={style.imgWrapper}>
+											</div>
+											<CardBody className={style.cardBody}>
+												<CardTitle className={style.cardTitle}>Card title</CardTitle>
+												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
+											</CardBody>
+										</Card>
+									</Col>
+								</Row>
 							</Col>
 						</Row>
 					</Col>

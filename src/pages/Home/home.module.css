@@ -1,3 +1,15 @@
+@media (max-width: 1000px) {
+    /* Sidebar */
+    .sidebar {
+        margin-left: -250px;
+    }
+
+    /* Content */
+    .content {
+        margin-left: 0px !important;
+    }
+}
+
 @media (max-width: 768px) {
     
 }
@@ -45,13 +57,97 @@
 }
 
 /* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    z-index: 5;
+    transition: margin-left .15s ease-in-out;
+    border-right: 1px solid black;
+}
 
+.sidebarOpened {
+    width: 250px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    z-index: 5;
+    transition: margin-left .15s ease-in-out;
+    border-right: 1px solid black;
+
+    margin-left: 0px !important;
+}
+
+.sidebar .sidebarToggle1,
+.sidebarOpened .sidebarToggle1 {
+    width: 95% !important;
+    text-align: right;
+}
+
+.sidebar .sidebarToggle1 .sidebarToggleIcon,
+.sidebarOpened .sidebarToggle1 .sidebarToggleIcon {
+    font-size: 20px;
+    margin: 21px;
+}
+
+.content .sidebarToggle2 .sidebarToggleIcon {
+    font-size: 20px;
+}
+
+.sidebar .sidebarToggle1 .sidebarToggleIcon:hover,
+.sidebarOpened .sidebarToggle1 .sidebarToggleIcon:hover,
+.content .sidebarToggle2 {
+    cursor: pointer;
+}  
+
+.sidebar .profile,
+.sidebarOpened .profile {
+    text-align: center;
+    width: 95%;
+}
+
+.sidebar .profile .profileAvatar,
+.sidebarOpened .profile .profileAvatar {
+    margin: 20px 0;
+}
+
+.sidebar .profile .profileAvatar img,
+.sidebarOpened .profile .profileAvatar img {
+    border-radius: 50%;
+    width: 150px;
+}
+
+.sidebar .profile .profileName,
+.sidebarOpened .profile .profileName {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.sidebar .navigation,
+.sidebarOpened .navigation {
+    width: 95%;
+    margin-top: 40px;
+}
+
+.sidebar .navigation .nav,
+.sidebarOpened .navigation .nav {
+    padding: 20px 40px;
+    /* background-color: papayawhip; */
+}
+
+.sidebar .navigation a,
+.sidebarOpened .navigation a {
+    color: #404040;
+}
 
 /* Content */
 .content {
     background-color: rgba(0, 0, 0, 0.3);
     height: 100vh;
-    padding-left: 200px;
+    margin-left: 250px;
+    transition: margin-left .15s ease-in-out;
 }
 
 #navbarBrandTop {

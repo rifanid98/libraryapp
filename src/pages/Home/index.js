@@ -36,9 +36,11 @@ export default class Home extends Component {
 		document.title = `Home`;
 		super(props)
 		this.state = {
-			isOpen: false
+			isOpen: false,
+			sidebarOpened: false
 		}
 	}
+	
 	// const [isOpen, setIsOpen] = useState(false);
 	toggle = () => {
 		this.state.isOpen === true 
@@ -46,15 +48,65 @@ export default class Home extends Component {
 			: this.setState({ ...this.state, isOpen: true });
 	}
 
+	toggleSidebar = () => {
+		this.state.sidebarOpened === false
+			? this.setState({ ...this.state, sidebarOpened: true }, () => {
+				$(document).find('#sidebar').attr('class', 'home_sidebarOpened__1eo8p')
+			})
+			: this.setState({ ...this.state, sidebarOpened: false }, () => {
+				$(document).find('#sidebar').attr('class', 'home_sidebar__jbvkE')
+			})
+	}
+
 	render() {
 		return (
 			<Container fluid className={style.container}>
 				<Row classID={style.wrapper}>
-					
-					<Col className={style.content} md="12">
+					{/* Sidebar */}
+					<div className={style.sidebar} id="sidebar">
+						{/* Sidebar Toggle */}
+						<Row>
+							<div className={style.sidebarToggle1} onClick={this.toggleSidebar}>
+								<FontAwesomeIcon icon={faBars} className={style.sidebarToggleIcon} />
+							</div>
+						</Row>
+						{/* Profile Preview */}
+						<Row>
+							<div className={style.profile}>
+								{/* Profile Avatar */}
+								<Row>
+									<Col className={style.profileAvatar}>
+										<img src="https://via.placeholder.com/150" alt=""/>
+									</Col>
+								</Row>
+								{/* Profile Name */}
+								<Row>
+									<Col className={style.profileName}>
+										Niki Zefanya
+									</Col>
+								</Row>
+							</div>
+						</Row>
+						{/* Navigation */}
+						<Row>
+							<div className={style.navigation}>
+								<Nav vertical className={style.nav}>
+									<Link className="nav-link" to="/login">Explore</Link>
+									<Link className="nav-link" to="/signup">History</Link>
+									<Link className="nav-link" to="/adada">Add Book*</Link>
+								</Nav>
+							</div>
+						</Row>
+					</div>
+
+					{/* Content */}
+					<Col className={style.content}>
 						<Row>
 							<Col md="12" style={{padding: '0px'}}>
 								<Navbar color="white" light expand="md" fixed="">
+									<div className={style.sidebarToggle2} onClick={this.toggleSidebar}>
+										<FontAwesomeIcon icon={faBars} className={style.sidebarToggleIcon}/>
+									</div>
 									<NavbarBrand href="/" id={style.navbarBrandTop}>
 										LibraryLibrary
 									</NavbarBrand>

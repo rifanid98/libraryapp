@@ -251,11 +251,11 @@
 
 .content .cardBody {
     margin: -1px;
-    height: 100px;
+    /* height: 100px; */
     background-color: white;
     border-radius: 0px 0px 15px 15px;
     z-index: 5;
-    padding: 10px 20px 5px 20px;
+    /* padding: 10px 20px 5px 20px; */
 }
 
 .content .cardBody .cardTitle {
@@ -270,5 +270,6 @@
     font-family: 'Open Sans',
     sans-serif;
     font-size: 13px;
+    margin-bottom: 10px;
 }
 

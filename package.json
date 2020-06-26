@@ -18,15 +18,20 @@
     "node-sass": "4.14.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-image": "^4.0.1",
+    "react-markdown": "^4.3.1",
     "react-redux": "7.2.0",
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.1",
+    "react-slick": "^0.26.1",
     "reactstrap": "^8.4.1",
+    "reactstrap-md-textarea": "^3.0.0",
     "redux": "4.0.5",
-    "redux-thunk": "2.3.0"
+    "redux-thunk": "2.3.0",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
-    "start": "BROWSER=google-chrome react-scripts start",
+    "start": "BROWSER=google-chrome PORT=3000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

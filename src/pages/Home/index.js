@@ -8,11 +8,12 @@ import {
 	Col, 
 	Row, 
 	
-	// Form, 
-	// FormGroup, 
-	// Label, 
-	// Input, 
-	// Button, 
+	Form, 
+	FormGroup, 
+	Label, 
+	Input, 
+	Button, 
+	// Textarea
 	
 	// NavLink, NavItem, 
 	
@@ -30,8 +31,12 @@ import {
 	// CardImg, 
 	CardText, CardBody,
 	CardTitle, 
-	// CardSubtitle
+	// CardSubtitle,
+
+	// Jumbotron
  } from 'reactstrap';
+import { Textarea as MdTextarea } from 'reactstrap-md-textarea';
+
 import $ from 'jquery';
 
 // fontawesome
@@ -45,6 +50,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 // custom style
 import style from './home.module.css';
+import MyModal from '../../components/organisms/MyModal';
 
 export default class Home extends Component {
 	constructor(props) {
@@ -58,9 +64,13 @@ export default class Home extends Component {
 			activeSlide: 0,
 			activeSlide2: 0,
 
+			modalOpen: false,
+
 			content: {
 				width: 0
-			}
+			},
+			mdTxt: "",
+			instanceKey: false
 		}
 	}
 	
@@ -103,6 +113,13 @@ export default class Home extends Component {
 		window.removeEventListener('resize', this.updateDimensions);
 	}
 
+	onChange = (stateName, value) => {
+		// this.onChange('mdTxt', e.target.value)}
+		this.setState({
+			...this.state,
+			[stateName] : value
+		})
+	}
 	render() {
 		const settings = {
 			dots: true,
@@ -117,6 +134,30 @@ export default class Home extends Component {
 				this.setState({ oldSlide: current, activeSlide: next }),
 			afterChange: current => this.setState({ activeSlide2: current })
 		};
+
+		const modalBody = <div>
+			<Form>
+				<FormGroup>
+					<Label for="exampleEmail">Image</Label>
+					<Input type="file" name="email" id="exampleEmail" placeholder="with a placeholder" />
+				</FormGroup>
+				<FormGroup>
+					<Label for="examplePassword">Password</Label>
+					<Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+				</FormGroup>
+				<FormGroup>
+					<Label for="examplePassword">Description</Label>
+					<MdTextarea
+						rows={10}
+						onChange={(e) => this.onChange('mdTxt', e.target.value)}
+						// onChange={(e) => this.onChange('mdTxt', e.target.value)}
+						value={this.state.mdTxt}
+						allowFilteredHtml={true}
+					/>
+				</FormGroup>
+				<Button color="warning" className="float-right">Save</Button>
+			</Form>
+		</div>
 
 		return (
 			<Container fluid className={style.container}>
@@ -135,7 +176,7 @@ export default class Home extends Component {
 								{/* Profile Avatar */}
 								<Row>
 									<Col className={style.profileAvatar}>
-										<img src="http://localhost:3000/avatar.jpeg" alt=""/>
+										<img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" alt=""/>
 									</Col>
 								</Row>
 								{/* Profile Name */}
@@ -152,7 +193,8 @@ export default class Home extends Component {
 								<Nav vertical className={style.nav}>
 									<Link className="nav-link" to="/login">Explore</Link>
 									<Link className="nav-link" to="/signup">History</Link>
-									<Link className="nav-link" to="/adada">Add Book*</Link>
+									<MyModal id="buka" modalTitle="Add Data" modalBody={modalBody} size="lg"/>
+									<Link className="nav-link" to="#" onClick={() => { $('#buka').click()}}>Add Book*</Link>
 								</Nav>
 							</div>
 						</Row>
@@ -218,38 +260,20 @@ export default class Home extends Component {
 						{/* slider */}
 						<Row>
 							<Col className={style.slider}>
-								<div>
-									<h2>beforeChange and afterChange hooks</h2>
-									<p>
-										BeforeChange => oldSlide: <strong>{this.state.oldSlide}</strong>
-									</p>
-									<p>
-										BeforeChange => activeSlide: <strong>{this.state.activeSlide}</strong>
-									</p>
-									<p>
-										AfterChange => activeSlide: <strong>{this.state.activeSlide2}</strong>
-									</p>
-									<Slider {...settings}>
-										<div>
-											<h3>1</h3>
-										</div>
-										<div>
-											<h3>2</h3>
-										</div>
-										<div>
-											<h3>3</h3>
-										</div>
-										<div>
-											<h3>4</h3>
-										</div>
-										<div>
-											<h3>5</h3>
-										</div>
-										<div>
-											<h3>6</h3>
-										</div>
-									</Slider>
-								</div>
+								<Slider {...settings}>
+									<div>
+										<h1>1</h1>
+									</div>
+									<div>
+										<h1>1</h1>
+									</div>
+									<div>
+										<h1>1</h1>
+									</div>
+									<div>
+										<h1>1</h1>
+									</div>
+								</Slider>
 							</Col>
 						</Row>
 						{/* Book Lists */}
@@ -257,9 +281,8 @@ export default class Home extends Component {
 							<Col className={style.bookLists}>
 								<p>Book Lists</p>
 								<Row>
-									
 									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+										<Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)'}}>
 											<div className={style.imgWrapper}>
 											</div>
 											<CardBody className={style.cardBody}>
@@ -269,7 +292,7 @@ export default class Home extends Component {
 										</Card>
 									</Col>
 									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+										<Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)'}}>
 											<div className={style.imgWrapper}>
 											</div>
 											<CardBody className={style.cardBody}>
@@ -279,7 +302,7 @@ export default class Home extends Component {
 										</Card>
 									</Col>
 									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+										<Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)'}}>
 											<div className={style.imgWrapper}>
 											</div>
 											<CardBody className={style.cardBody}>
@@ -289,17 +312,7 @@ export default class Home extends Component {
 										</Card>
 									</Col>
 									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
-											<div className={style.imgWrapper}>
-											</div>
-											<CardBody className={style.cardBody}>
-												<CardTitle className={style.cardTitle}>Card title</CardTitle>
-												<CardText className={style.cardText}>Some quick example text to build on the...</CardText>
-											</CardBody>
-										</Card>
-									</Col>
-									<Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-										<Card className={style.card} style={{backgroundImage: 'url(http://localhost:3000/avatar.jpeg)'}}>
+										<Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)'}}>
 											<div className={style.imgWrapper}>
 											</div>
 											<CardBody className={style.cardBody}>
@@ -313,6 +326,7 @@ export default class Home extends Component {
 						</Row>
 					</Col>
 				</Row>
+				
 			</Container>
 		)
   	}

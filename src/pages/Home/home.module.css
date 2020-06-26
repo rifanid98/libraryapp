@@ -77,7 +77,6 @@
     position: fixed;
     z-index: 7;
     transition: margin-left .15s ease-in-out;
-
     margin-left: 0px !important;
 }
 
@@ -124,6 +123,7 @@
 .sidebarOpened .profile .profileAvatar img {
     border-radius: 50%;
     width: 150px;
+    height: 150px;
 }
 
 .sidebar .profile .profileName,

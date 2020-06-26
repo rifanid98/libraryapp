@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Container, Col, Row, 
 	
@@ -8,23 +8,39 @@ import { Container, Col, Row,
 	Button, 
 	
 	// Form, 
-	
+	Nav,
 	Jumbotron } from 'reactstrap';
 
 import style from './detail.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import $ from 'jquery'
 
 export default class Detail extends Component {
 	constructor(props) {
 		document.title = `Detail`;
 		super(props)
+		
+		// var test = $(document).prop('scrollHeight') 
+		// console.log(test);
 	}
-
-  render() {
-	return (
-		<Container fluid className={style.container}>
-			<div>
-				{/* navbar tools */}
-				
+	
+	render() {
+		return (
+			<Container fluid className={style.container} onScroll={()=>{alert()}}>
+			{/* navbar tools */}
+			<div className={style.navbarTools}>
+				{/* back button */}
+				<div className={style.backButton} onClick={() => {this.props.history.push('/home')}}>
+					<FontAwesomeIcon icon={faArrowLeft} className={style.backButtonIcon} />
+				</div>
+				{/* admin menu */}
+				<div className={style.adminMenu}>
+					<Nav>
+						<Link to="#">Edit</Link>
+						<Link to="#">Delete</Link>
+					</Nav>
+				</div>
 			</div>
 			{/* Jumbotron */}
 			<Row>

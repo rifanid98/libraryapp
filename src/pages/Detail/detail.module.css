@@ -37,6 +37,53 @@
     padding: 0px !important;
 }
 
+/* Navbar Tools */
+.navbarTools {
+    width: 100%;
+    /* background-color: rgba(88, 88, 88, 0.2); */
+    position: fixed;
+    z-index: 10;
+}
+
+.navbarTools .backButton {
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    background-color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 1px 3px 10px 10px rgba(0,0,0,0.12);
+}
+
+.navbarTools .backButton .backButtonIcon {
+    margin: auto;
+    margin-top: 9px;
+    margin-right: 1px;
+}
+
+.navbarTools .adminMenu {
+    width: 100px;
+    position: absolute;
+    right: 5px;
+    top: 4px;
+    z-index: 10;
+    font-size: 15px;
+    font-family: 'Open Sans',
+    sans-serif;
+    font-weight: 600;
+    margin: 10px;
+    /* font */
+}
+
+.navbarTools .adminMenu a {
+    color: white;
+    margin: 2px 5px;
+}
+
+.navbarTools .adminMenu a:hover {
+    text-decoration: none;
+}
 
 /* Headline */
 .headline {

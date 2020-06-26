@@ -1,31 +1,67 @@
+// library
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
+// third party component
 import { Container, Col, Row, 
 	
-	// FormGroup, Label, Input, 
-	
+	Form,
+	FormGroup,
+	Label,
+	Input,
 	Button, 
 	
 	// Form, 
 	Nav,
 	Jumbotron } from 'reactstrap';
+import { Textarea as MdTextarea } from 'reactstrap-md-textarea';
+import $ from 'jquery';
+import Swal from 'sweetalert2';
 
+// custom component
+import MyModal from '../../components/organisms/MyModal';
+
+// style
 import style from './detail.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import $ from 'jquery'
 
 export default class Detail extends Component {
 	constructor(props) {
 		document.title = `Detail`;
 		super(props)
+		this.state = {
+			mdTxt: ''
+		}
 		
 		// var test = $(document).prop('scrollHeight') 
 		// console.log(test);
 	}
 	
 	render() {
+		const modalBody = <div>
+			<Form>
+				<FormGroup>
+					<Label for="exampleEmail">Image</Label>
+					<Input type="file" name="image" id="" />
+				</FormGroup>
+				<FormGroup>
+					<Label for="">Title</Label>
+					<Input type="text" name="title" id="" placeholder="title here" />
+				</FormGroup>
+				<FormGroup>
+					<Label for="">Description</Label>
+					<MdTextarea
+						rows={10}
+						onChange={(e) => this.onChange('mdTxt', e.target.value)}
+						value={this.state.mdTxt}
+						allowFilteredHtml={true}
+					/>
+				</FormGroup>
+				<Button color="warning" className="float-right">Save</Button>
+			</Form>
+		</div>
+
 		return (
 			<Container fluid className={style.container} onScroll={()=>{alert()}}>
 			{/* navbar tools */}
@@ -36,9 +72,20 @@ export default class Detail extends Component {
 				</div>
 				{/* admin menu */}
 				<div className={style.adminMenu}>
+					<MyModal id="buka" modalTitle="Edit Data" modalBody={modalBody} size="lg" />
 					<Nav>
-						<Link to="#">Edit</Link>
-						<Link to="#">Delete</Link>
+						<Link to="#" onClick={() => { $('#buka').click() }}>Edit</Link>
+						<Link to="#" onClick={() => {
+								Swal.fire({
+									title: '<strong>Data ID #</strong>',
+									icon: 'success',
+									html: 'Data <strong>Dilan 2012</strong> Berhasil Dihapus!',
+									showCloseButton: true,
+									focusConfirm: true
+								}).then((result) => {
+									
+								})
+						}}>Delete</Link>
 					</Nav>
 				</div>
 			</div>

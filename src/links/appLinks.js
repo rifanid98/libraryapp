@@ -1,11 +1,15 @@
 const appLinks = [
     {
-        name: "About",
-        path: "/about"
+        name: "Login",
+        path: "/login"
+    }, 
+    {
+        name: "Sign Up",
+        path: "/signup"
     },
     {
-        name: "Homepage",
-        path: "/"
+        name: "Home",
+        path: "/home"
     }
 ];
 

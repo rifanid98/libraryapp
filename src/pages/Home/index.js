@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
-// bootstrap
+// third party component
 import { 
 	Container, 
 	Col, 
@@ -36,8 +36,10 @@ import {
 	// Jumbotron
  } from 'reactstrap';
 import { Textarea as MdTextarea } from 'reactstrap-md-textarea';
-
 import $ from 'jquery';
+
+// custom component
+import MyModal from '../../components/organisms/MyModal';
 
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -50,7 +52,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 // custom style
 import style from './home.module.css';
-import MyModal from '../../components/organisms/MyModal';
 
 export default class Home extends Component {
 	constructor(props) {
@@ -204,11 +205,13 @@ export default class Home extends Component {
 									<div className={style.sidebarToggle2} onClick={this.toggleSidebar}>
 										<FontAwesomeIcon icon={faBars} className={style.sidebarToggleIcon}/>
 									</div>
+									{/* navbar brand top */}
 									<NavbarBrand href="/" id={style.navbarBrandTop}>
 										<img src="http://localhost:3000/book.png" alt=""/>Library
 									</NavbarBrand>
 									<NavbarToggler onClick={this.toggle} style={{border: 'none'}} />
 									<Collapse isOpen={this.state.isOpen} navbar>
+										{/* navbar menu */}
 										<Nav className="mr-auto" navbar>
 											<UncontrolledDropdown nav inNavbar>
 												<DropdownToggle nav caret>
@@ -233,6 +236,7 @@ export default class Home extends Component {
 												</DropdownMenu>
 											</UncontrolledDropdown>
 										</Nav>
+										{/* search input */}
 										<form className="mx-2 my-auto d-inline w-100">
 											<div className="input-group">
 												<div id={style.space}></div>
@@ -246,6 +250,7 @@ export default class Home extends Component {
 											</div>
 										</form>
 									</Collapse>
+									{/* navbar brand bottom */}
 									<NavbarBrand href="/" id={style.navbarBrandBottom}>
 										<img src="http://localhost:3000/book.png" alt=""/>Library
 									</NavbarBrand>

@@ -114,11 +114,7 @@ export default class Home extends Component {
 	}
 
 	onChange = (stateName, value) => {
-		// this.onChange('mdTxt', e.target.value)}
-		this.setState({
-			...this.state,
-			[stateName] : value
-		})
+		this.setState({ ...this.state, [stateName]: value })
 	}
 	render() {
 		const settings = {
@@ -139,18 +135,17 @@ export default class Home extends Component {
 			<Form>
 				<FormGroup>
 					<Label for="exampleEmail">Image</Label>
-					<Input type="file" name="email" id="exampleEmail" placeholder="with a placeholder" />
+					<Input type="file" name="image" id="" />
 				</FormGroup>
 				<FormGroup>
-					<Label for="examplePassword">Password</Label>
-					<Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+					<Label for="">Title</Label>
+					<Input type="text" name="title" id="" placeholder="title here" />
 				</FormGroup>
 				<FormGroup>
-					<Label for="examplePassword">Description</Label>
+					<Label for="">Description</Label>
 					<MdTextarea
 						rows={10}
 						onChange={(e) => this.onChange('mdTxt', e.target.value)}
-						// onChange={(e) => this.onChange('mdTxt', e.target.value)}
 						value={this.state.mdTxt}
 						allowFilteredHtml={true}
 					/>

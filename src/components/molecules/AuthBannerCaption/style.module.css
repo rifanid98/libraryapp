@@ -1,0 +1,18 @@
+@media (max-width: 767px) {
+    .captionQuote p {
+        margin-top: 10%;
+    }
+}
+
+
+.captionQuote p {
+    text-shadow: 2px 2px 3px #404040;
+    color: white;
+    font-size: 18px;
+    font-family: 'Merriweather',
+        serif;
+}
+
+.captionQuote p:nth-child(2) {
+    margin-top: 20px;
+}

@@ -1,0 +1,19 @@
+.title {
+    text-align: center;
+    padding-top: 15%;
+}
+
+.title p {
+    text-shadow: 2px 2px 3px #404040;
+    margin-top: 20px;
+    font-size: 50px;
+    color: white;
+    font-weight: 800;
+    font-family: 'Montserrat',
+        sans-serif;
+}
+
+.title p:nth-child(2) {
+    margin-top: -30px;
+    margin-bottom: -65px;
+}

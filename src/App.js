@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { appRoutes, userRoutes } from './routes';
 
 import './App.css';
@@ -10,8 +10,11 @@ const App = () => {
     <Router>
       {/* Routes */}
       <Switch>
-        {appRoutes.map((route, index) => <Route key={index} {...route} />)}
+        <Route path="/" exact>
+          <Redirect to="/home"></Redirect>
+        </Route>
         {userRoutes.map((route, index) => <Route key={index} {...route} />)}
+        {appRoutes.map((route, index) => <Route key={index} {...route} />)}
       </Switch>
     </Router>
   );

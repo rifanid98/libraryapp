@@ -1,12 +1,12 @@
-// import { Training } from "pages";
+import { Training } from "../pages";
 
 const userRoutes = [
-    // {
-    //     name: "Training",
-    //     component: Training,
-    //     exact: true,
-    //     path: "/training"
-    // }
+    {
+        name: "Training",
+        component: Training,
+        exact: true,
+        path: "/training"
+    }
 ];
 
 export default userRoutes;

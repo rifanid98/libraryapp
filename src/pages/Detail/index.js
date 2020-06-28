@@ -33,9 +33,6 @@ export default class Detail extends Component {
 		this.state = {
 			mdTxt: ''
 		}
-		
-		// var test = $(document).prop('scrollHeight') 
-		// console.log(test);
 	}
 	
 	render() {
@@ -63,7 +60,7 @@ export default class Detail extends Component {
 		</div>
 
 		return (
-			<Container fluid className={style.container} onScroll={()=>{alert()}}>
+			<Container fluid className={style.container}>
 			{/* navbar tools */}
 			<div className={style.navbarTools}>
 				{/* back button */}

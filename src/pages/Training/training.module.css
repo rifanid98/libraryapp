@@ -1,0 +1,31 @@
+.container {
+    /* background-color: lawngreen; */
+    height: 100%;
+}
+
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: orange;
+    margin-left: 0px;
+}
+
+.sidebarClosed {
+    width: 300px;
+    height: 100vh;
+    background-color: orange;
+    margin-left: -300px;
+}
+
+/* #sidebarOpened {
+    width: 300px;
+    height: 100vh;
+    background-color: orange;
+    margin-left: 0px;
+} */
+
+.content {
+    width: 700px;
+    height: 100vh;
+    background-color: teal;
+}

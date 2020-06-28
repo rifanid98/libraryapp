@@ -1,4 +1,49 @@
+/* 
+set default document height
+*/
 html,
 body {
     height: 100% !important;
+}
+
+/* 
+change default bootstrap input placeholder for navbar search input
+location: homepage
+*/
+
+html .form-control::-webkit-input-placeholder {
+    color: #d0d0d0;
+}
+
+html .form-control:-moz-placeholder {
+    color: #d0d0d0;
+}
+
+html .form-control::-moz-placeholder {
+    color: #d0d0d0;
+}
+
+html .form-control:-ms-input-placeholder {
+    color: #d0d0d0;
+}
+
+/* 
+remove navbar border outline
+location: homepage
+*/
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* 
+slick slider 
+location: homepage
+*/
+html .slick-active {
+    margin: 0 10px !important;
+    border-radius: 12px;
 }

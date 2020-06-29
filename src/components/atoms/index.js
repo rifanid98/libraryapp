@@ -1,3 +1,3 @@
-// import MyButton from "./MyButtons";
+import SliderArrow from './SliderArrow';
 
-// export { MyButton };
+export { SliderArrow };

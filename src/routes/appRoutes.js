@@ -1,5 +1,6 @@
 import React from 'react'
-import {Login, Signup, Home, Detail } from '../pages'
+import { Login, Signup, Home, Detail } from 'pages';
+
 
 const notfound = () => {
   return (
@@ -8,7 +9,7 @@ const notfound = () => {
 }
 
 const appRoutes = [
- 
+
   {
     name: "Detail",
     component: Detail,

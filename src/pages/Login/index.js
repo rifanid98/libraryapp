@@ -21,7 +21,7 @@ import {
   AuthBannerCaption,
   AuthSidebarTitle,
   AuthSidebarFooter
-} from '../../components';
+} from 'components';
 
 // custom style
 import style from './login.module.css';

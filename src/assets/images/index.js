@@ -1,3 +1,4 @@
-import imgBackground from "./img-background.png";
+import imgBackground from "./img-background3.jpg";
+import bookIcon from './book.png';
 
-export { imgBackground };
+export { imgBackground, bookIcon };

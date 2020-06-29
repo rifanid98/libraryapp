@@ -40,10 +40,10 @@ import $ from 'jquery';
 import Slider from "react-slick";
 
 // custom component
-import MyModal from '../../components/organisms/MyModal';
+import { MyModal } from 'components';
 
 // assets
-import bookIcon from '../../assets/images/book.png';
+import { bookIcon } from 'assets';
 
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

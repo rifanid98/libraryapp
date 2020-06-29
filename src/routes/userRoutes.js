@@ -1,4 +1,4 @@
-import { Training } from "../pages";
+import { Training } from "pages";
 
 const userRoutes = [
     {

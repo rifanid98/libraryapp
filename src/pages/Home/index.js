@@ -40,7 +40,11 @@ import $ from 'jquery';
 import Slider from "react-slick";
 
 // custom component
-import { MyModal } from 'components';
+import {
+  MyModal,
+  BookCard,
+  SliderItem
+} from 'components';
 
 // assets
 import { bookIcon } from 'assets';
@@ -149,6 +153,9 @@ export default class Home extends Component {
       centerMode: true,
       className: "center",
       adaptiveHeight: true,
+      autoplay: true,
+      speed: 3000,
+      autoplaySpeed: 5000,
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
       slidesToShow: 3,
@@ -204,6 +211,16 @@ export default class Home extends Component {
         <Button color="warning" className="float-right">Save</Button>
       </Form>
     </div>
+
+    const bookLists = []
+    for (let i = 0; i < 10; i++) {
+      bookLists.push(<BookCard history={this.props.history} bookId="12" cardImage="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" cardTitle="Card title" cardText="Some quick example text to build on the..." />)
+    }
+
+    const slideItems = []
+    for (let i = 0; i < 10; i++) {
+      slideItems.push(<SliderItem slideImage="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" />)
+    }
 
     return (
       <Container fluid className={style.container}>
@@ -312,30 +329,7 @@ export default class Home extends Component {
               <Col className={style.slider}>
                 <div>
                   <Slider {...settings}>
-                    <Link to="/detail">
-                      <div className={`${style.slide}`}>
-                        <div className={`${style.slideItem}`} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link to="/detail">
-                      <div className={`${style.slide}`}>
-                        <div className={`${style.slideItem}`} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link to="/detail">
-                      <div className={`${style.slide}`}>
-                        <div className={`${style.slideItem}`} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                        </div>
-                      </div>
-                    </Link>
-                    <Link to="/detail">
-                      <div className={`${style.slide}`}>
-                        <div className={`${style.slideItem}`} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                        </div>
-                      </div>
-                    </Link>
+                    {slideItems}
                   </Slider>
                 </div>
               </Col>
@@ -345,46 +339,7 @@ export default class Home extends Component {
               <Col className={style.bookLists}>
                 <p>Book Lists</p>
                 <Row>
-                  <Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-                    <Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                      <div className={style.imgWrapper}>
-                      </div>
-                      <CardBody className={style.cardBody}>
-                        <CardTitle className={style.cardTitle}>Card title</CardTitle>
-                        <CardText className={style.cardText}>Some quick example text to build on the...</CardText>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                  <Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-                    <Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                      <div className={style.imgWrapper}>
-                      </div>
-                      <CardBody className={style.cardBody}>
-                        <CardTitle className={style.cardTitle}>Card title</CardTitle>
-                        <CardText className={style.cardText}>Some quick example text to build on the...</CardText>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                  <Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-                    <Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                      <div className={style.imgWrapper}>
-                      </div>
-                      <CardBody className={style.cardBody}>
-                        <CardTitle className={style.cardTitle}>Card title</CardTitle>
-                        <CardText className={style.cardText}>Some quick example text to build on the...</CardText>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                  <Col md="3" sm="4" xs="6" onClick={() => { this.props.history.push('/detail') }}>
-                    <Card className={style.card} style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80)' }}>
-                      <div className={style.imgWrapper}>
-                      </div>
-                      <CardBody className={style.cardBody}>
-                        <CardTitle className={style.cardTitle}>Card title</CardTitle>
-                        <CardText className={style.cardText}>Some quick example text to build on the...</CardText>
-                      </CardBody>
-                    </Card>
-                  </Col>
+                  {bookLists}
                 </Row>
               </Col>
             </Row>

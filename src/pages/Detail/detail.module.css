@@ -1,13 +1,10 @@
 @media (max-width: 767px) {
-   
 }
 
 @media (max-width: 657px) {
-  
 }
 
 @media (max-width: 590px) {
-   
 }
 
 @media (max-width: 576px) {
@@ -22,11 +19,9 @@
 }
 
 @media (max-width: 456px) {
-   
 }
 
 @media (max-width: 385px) {
-   
 }
 
 .container {
@@ -53,7 +48,7 @@
     border-radius: 50%;
     cursor: pointer;
     margin: 10px;
-    box-shadow: 1px 3px 10px 10px rgba(0,0,0,0.12);
+    box-shadow: 1px 3px 10px 10px rgba(0, 0, 0, 0.12);
 }
 
 .navbarTools .backButton .backButtonIcon {
@@ -69,8 +64,7 @@
     top: 4px;
     z-index: 10;
     font-size: 15px;
-    font-family: 'Open Sans',
-    sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 600;
     margin: 10px;
     /* font */
@@ -98,7 +92,7 @@
 /* Decription */
 
 .description {
-    padding: 0 100px 50px 100px!important;
+    padding: 0 100px 50px 100px !important;
 }
 
 .description .title {
@@ -113,37 +107,30 @@
 }
 
 .description .title h1 {
-    font-family: 'Open Sans',
-    sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 700;
     margin-bottom: -5px !important;
 }
 
 .description .title small {
     margin-left: 3px;
-    font-family: 'Open Sans',
-    sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
 .description .status {
-    /* display: inline-flex;
-    align-items: center;
-    justify-content: center; */
     text-align: right;
 }
 
 .description .status p {
     margin-top: 40px;
     color: #99d815;
-    font-family: 'Open Sans',
-    sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: 800;
 }
 
 .description .text {
     /* padding: 0px !important; */
-    font-family: 'Open Sans',
-    sans-serif;
+    font-family: "Open Sans", sans-serif;
     text-align: justify;
 }
 
@@ -154,6 +141,7 @@
 }
 
 .borrow .image {
+    background-size: cover !important;
     margin: auto;
     border-radius: 14px;
     width: 200px;
@@ -169,7 +157,15 @@
     background-color: #e4ba33;
     padding: 10px 40px;
     border: none;
-    font-family: 'Montserrat',
-    sans-serif;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+}
+
+.borrow .buttonReturn {
+    background-color: #99d815;
+    display: none;
+    padding: 10px 40px;
+    border: none;
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
 }

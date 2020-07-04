@@ -1,33 +1,31 @@
-import { combineReducers, createStore } from 'redux';
-// import { combineReducers, createStore, thunk, applyMiddleware } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import reduxPromise from 'redux-promise-middleware';
+import logger from "redux-logger";
 
-import post from './post/reducer';
-import profile from './profile/reducer';
+import auth from './auth/reducer';
 
 /**
  * reducer
  */
 export const reducer = combineReducers({
-  post,
-  profile
+  auth
 })
 
 /**
  * store
  */
 export const store = createStore(
-  reducer
-  // ,applyMiddleware(thunk)
+  reducer,
+  applyMiddleware(reduxPromise, logger)
 );
 
 /**
  * dispatcher
  */
-export * from './post/action';
-export * from './profile/action';
+export * from './auth/actions';
 
 /**
  * selector
  */
-export * from './post/selector';
-export * from './profile/selector';
+// export * from './post/selector';
+// export * from './profile/selector';

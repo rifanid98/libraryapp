@@ -40,9 +40,13 @@ export const convertDate = date => {
 };
 
 export const decodeJwtToken = jwtToken => {
-  const parts = jwtToken.split('.').map(part => Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
-  const payload = JSON.parse(parts[1]);
-  return payload;
+  if (jwtToken !== undefined) {
+    const parts = jwtToken.split('.').map(part => Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
+    const payload = JSON.parse(parts[1]);
+    return payload;
+  } else {
+    return jwtToken;
+  }
 }
 
 export const convertISODate = (myDate, showTime = true) => {

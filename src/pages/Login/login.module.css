@@ -140,6 +140,7 @@
 }
 
 .sidebar .sidebarContent input[type=email],
+.sidebar .sidebarContent input[type=text],
 .sidebar .sidebarContent input[type=password] {
     margin-top: -10px;
     border-top: none;
@@ -153,6 +154,7 @@
 }
 
 .sidebar .sidebarContent input[type=email]:focus,
+.sidebar .sidebarContent input[type=text]:focus,
 .sidebar .sidebarContent input[type=password]:focus {
     box-shadow: none;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Login, Signup, Home, Detail } from 'pages';
+import { Login, Signup, Home, Detail, Logout } from 'pages';
 
 
 const notfound = () => {
@@ -14,7 +14,7 @@ const appRoutes = [
     name: "Detail",
     component: Detail,
     exact: true,
-    path: "/detail"
+    path: "/detail/:id"
   },
   {
     name: "Home",
@@ -27,6 +27,12 @@ const appRoutes = [
     component: Login,
     exact: true,
     path: "/login"
+  },
+  {
+    name: "Logout",
+    component: Logout,
+    exact: true,
+    path: "/logout"
   },
   {
     name: "Sign Up",

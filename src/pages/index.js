@@ -3,11 +3,13 @@ import Signup from "./Signup";
 import Home from "./Home";
 import Detail from "./Detail";
 import Training from "./Training";
+import Logout from "./Logout";
 
-export { 
-    Login, 
-    Signup, 
+export {
+    Login,
+    Signup,
     Home,
     Detail,
-    Training
- };
+    Training,
+    Logout
+};

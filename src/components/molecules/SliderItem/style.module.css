@@ -4,7 +4,7 @@
 }
 
 .slide .slideItem {
-    background-size: contain;
+    background-size: cover;
     border-radius: 12px;
     height: 100%;
     box-shadow: 0px 10px 10px 0px rgba(185, 185, 185, 0.2);

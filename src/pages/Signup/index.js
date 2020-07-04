@@ -1,6 +1,7 @@
 // library
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import Axios from 'axios';
+// import { Link } from 'react-router-dom';
 
 // third party component
 import {
@@ -22,6 +23,10 @@ import {
   AuthSidebarTitle,
   AuthSidebarFooter
 } from 'components';
+import Swal from 'sweetalert2';
+
+// custom config
+import { apiUri } from 'configs';
 
 // custom style
 import style from './signup.module.css';
@@ -31,7 +36,43 @@ export default class Signup extends Component {
     document.title = `Signup`;
     super(props)
   }
-
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append('role', 3)
+    await Axios({
+      method: 'POST',
+      url: apiUri.auth.register,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then((res) => {
+      if (res.status === 201) {
+        Swal.fire(
+          'Sign Up success!',
+          'Account created',
+          'success'
+        ).then(() => {
+          this.props.history.push('/login');
+        })
+      }
+    }).catch((error) => {
+      if (error.response.data) {
+        Swal.fire(
+          'Sign Up Failed!',
+          `${error.response.data.message}`,
+          'error'
+        )
+      } else {
+        Swal.fire(
+          'Sign Up Failed!',
+          'Please try again',
+          'error'
+        )
+      }
+    })
+  }
   render() {
     return (
       <Container fluid className={style.container}>
@@ -72,7 +113,7 @@ export default class Signup extends Component {
                   <AuthSidebarTitle text="Sign Up" description="Welcome back! Please register to create your account" />
                 </Row>
                 <Row className={style.sidebarContent}>
-                  <Form action="#" className={style.form}>
+                  <Form action="#" className={style.form} onSubmit={this.handleSubmit}>
                     <FormGroup>
                       <Label className={style.label} for="username">Username</Label>
                       <Input type="text" name="username" id="username" placeholder="username" />

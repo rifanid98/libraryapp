@@ -1,6 +1,7 @@
 // library
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 
 // third party component
 import {
@@ -12,8 +13,10 @@ import {
   Label,
   Input,
   Button,
-  Form
+  Form,
+  Spinner
 } from 'reactstrap';
+import Swal from 'sweetalert2';
 
 // custom component
 import {
@@ -25,11 +28,52 @@ import {
 
 // custom style
 import style from './login.module.css';
+import { connect } from 'react-redux';
+import { login } from 'modules';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     document.title = `Login`;
     super(props)
+  }
+
+  // handleSubmit = async (event) => {
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    let rememberMe = 'off';
+    if (formData.get('remember_me') === 'on') {
+      rememberMe = 'on';
+      formData.delete('remember_me');
+    }
+    this.props.login(formData)
+      .then(res => {
+        if ('status' in res.value && parseInt(res.value.status) === 200) {
+          const token = this.props.auth.data.tokenLogin;
+          if (rememberMe === 'on') {
+            localStorage.setItem('token', token)
+          } else {
+            sessionStorage.setItem('token', token)
+          }
+          this.props.history.push('/home')
+        } else {
+          Swal.fire(
+            'Login Failed!',
+            'Pleas try again',
+            'error'
+          );
+        }
+      })
+      .catch(error => {
+        if (error.response.data) {
+          console.log(error.response.data);
+        }
+        Swal.fire(
+          'Login Failed!',
+          'Pleas try again',
+          'error'
+        );
+      });
   }
 
   render() {
@@ -72,10 +116,10 @@ export default class Login extends Component {
                 </Row>
                 <Row className={style.sidebarContent}>
                   {/* sidebar content componenty */}
-                  <Form action="#" className={style.form}>
+                  <Form className={style.form} onSubmit={this.handleSubmit}>
                     <FormGroup>
                       <Label className={style.label} for="email">Email Address</Label>
-                      <Input type="email" name="email" id="email" placeholder="example@domain.com" />
+                      <Input type="text" name="username" id="username" placeholder="username or email" />
                     </FormGroup>
                     <FormGroup>
                       <Label className={style.label} for="password">Password</Label>
@@ -83,12 +127,12 @@ export default class Login extends Component {
                     </FormGroup>
                     <FormGroup check>
                       <Label className={style.label} check>
-                        <Input type="checkbox" />{' '}
+                        <Input type="checkbox" name="remember_me" />{' '}
                         <span className={style.span} style={{ float: 'left', position: 'absolute', left: '17px' }}>Remember Me</span>
                         <span className={style.span} style={{ float: 'right', position: 'absolute', right: '0px' }}><Link to="/">Forgot Password</Link></span>
                       </Label>
                     </FormGroup>
-                    <Button className={style.buttonLogin} onClick={(event) => { event.preventDefault(); this.props.history.push('/home') }}>Login</Button>
+                    <Button className={style.buttonLogin}>  <Spinner className="" color="light" style={{ width: '10px', height: '10px', display: this.props.auth.isLoading ? 'inline-block' : 'none' }} /> Login</Button>
                     <Button className={style.buttonSignup} outline onClick={(event) => { event.preventDefault(); this.props.history.push('/signup') }}>Sign Up</Button>
                   </Form>
                 </Row>
@@ -101,5 +145,14 @@ export default class Login extends Component {
         </Row>
       </Container>
     )
+
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = { login }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

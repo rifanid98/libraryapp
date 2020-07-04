@@ -33,6 +33,7 @@ To install this library application, follow these steps:
     ```
 -   Start MySQL server
 -   Import the database to your mysql machine. If you have installed xampp, you can open phpmyadmin page to import the database
+
     ```
 
     ```
@@ -57,7 +58,7 @@ To contribute to Librayapp, follow these steps:
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.
 3. Make your changes and commit them: `git commit -m '<commit_message>'`
-4. Push to the original branch: `git push origin libraryapp/new_features`
+4. Push to the original branch: `git push origin master`
 5. Create the pull request.
 
 Alternatively see the GitHub documentation on [creating a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).

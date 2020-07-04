@@ -7,11 +7,12 @@ import style from './style.module.css';
 
 const SliderItem = (props) => {
   const {
-    slideImage
+    slideImage,
+    id
   } = props;
 
   return (
-    <Link to="/detail">
+    <Link to={`/detail/${id}`}>
       <div className={`${style.slide}`}>
         <div className={`${style.slideItem}`} style={{ backgroundImage: `url(${slideImage})` }}>
         </div>

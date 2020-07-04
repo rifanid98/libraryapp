@@ -1,13 +1,11 @@
 import Axios from "axios";
-
 import {
   getPath,
   getCustomUrl,
   createUrlParamFromObj,
   getContentType,
   createHeader
-} from "../../utils";
-
+} from "utils";
 export const apiInstance = Axios.create({
   baseURL: "",
   timeout: 60000,

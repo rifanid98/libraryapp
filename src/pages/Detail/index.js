@@ -432,7 +432,7 @@ export default class Detail extends Component {
 							</Col>
 							{/* status */}
 							<Col md="3" sm="3" className={style.status}>
-								<p style={{ color: this.state.book.status === 1 && `red` }}>{this.state.book.status === 0 ? `Available` : `Not Available`}</p>
+								<p style={{ color: this.state.book.status === 1 && `red` }}>{this.state.book.status === 0 ? `${this.state.book.quantity} Books Available` : `Not Available`}</p>
 							</Col>
 						</Row>
 						<Row>

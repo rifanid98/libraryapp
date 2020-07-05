@@ -1,7 +1,6 @@
 // library
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
 
 // third party component
 import {
@@ -65,8 +64,10 @@ class Login extends Component {
         }
       })
       .catch(error => {
-        if (error.response.data) {
-          console.log(error.response.data);
+        if (error.response !== undefined) {
+          if (error.response.data) {
+            console.log(error.response.data);
+          }
         }
         Swal.fire(
           'Login Failed!',

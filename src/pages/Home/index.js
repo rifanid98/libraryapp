@@ -116,7 +116,12 @@ class Home extends Component {
 
   componentDidMount() {
     this.checkAuth();
-    this.getBooks();
+    const keyword = this.getKeyword();
+    if (keyword) {
+      this.getBookByKeyword(keyword);
+    } else {
+      this.getBooks();
+    }
     this.getCategories();
     this.getHistories();
     this.getHistoriesByUserId();
@@ -163,6 +168,12 @@ class Home extends Component {
       $('#navbar').width(this.state.content.width);
     });
   }
+  getKeyword = () => {
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let keyword = params.get('search');
+    return keyword;
+  }
   generateBookDate = (books) => {
     const times = books;
     const tempDates = [];
@@ -175,10 +186,8 @@ class Home extends Component {
     });
     return tempDates;
   }
-
   checkAuth = () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-
     if (!token) {
       this.props.history.push('/login');
     } else if (token !== "undefined") {
@@ -203,248 +212,63 @@ class Home extends Component {
     };
     const params = createUrlParamFromObj(pagination);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}/${params}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const totalPage = res.data.data.totalPage;
-      let pages = [];
-      for (let i = 0; i < totalPage; i++) {
-        pages.push(i);
-      }
-      const books = res.data.data.result;
-
-      this.setState({
-        ...this.state,
-        books: books,
-        sorts: books,
-        pagination: {
-          page: this.state.pagination.page,
-          limit: this.state.pagination.limit,
-          totalPage: pages
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.books.getAllBooks}/${params}`,
+        headers: {
+          authorization: token
         }
+      }).then((res) => {
+        // console.log(res);
+        const totalPage = res.data.data.totalPage;
+        let pages = [];
+        for (let i = 0; i < totalPage; i++) {
+          pages.push(i);
+        }
+        const books = res.data.data.result;
+
+        this.setState({
+          ...this.state,
+          books: books,
+          sorts: books,
+          pagination: {
+            page: this.state.pagination.page,
+            limit: this.state.pagination.limit,
+            totalPage: pages
+          }
+        })
+      }).catch((error) => {
+        console.log(`get books failed`)
       })
-    }).catch((error) => {
-      console.log(`get books failed`)
-    })
+    }
   }
   getCategories = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.genres.getAllGenres}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const genres = res.data.data;
-      this.setState({
-        ...this.state,
-        genres: genres
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.genres.getAllGenres}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const genres = res.data.data;
+        this.setState({
+          ...this.state,
+          genres: genres
+        })
+      }).catch((error) => {
+        console.log(`get genres (categories) failed`)
       })
-    }).catch((error) => {
-      console.log(`get genres (categories) failed`)
-    })
+    }
   }
   getBookByCategory = async (categoryName) => {
     const categories = { genre: categoryName };
     const params = createUrlParamFromObj(categories);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}/${params}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      const books = res.data.data;
-      if (books.length > 0) {
-        this.setState({
-          ...this.state,
-          books: books
-        })
-      } else {
-        Swal.fire(
-          'Oops',
-          'there are no books in that category :(. <br>We display the available books',
-          // 'success'
-        ).then(() => {
-          this.getBooks();
-        });
-      }
-    }).catch((error) => {
-      console.log(`get books by genre (category) failed`)
-    })
-  }
-  getBookBySort = async (sortBy) => {
-    const sort = { sort: sortBy };
-    const params = createUrlParamFromObj(sort);
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}/${params}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      const books = res.data.data;
-      if (books.length > 0) {
-        this.setState({
-          ...this.state,
-          books: books
-        })
-      } else {
-        Swal.fire(
-          'Oops',
-          'there are no books in that category :(. <br>We display the available books',
-          // 'success'
-        ).then(() => {
-          this.getBooks();
-        });
-      }
-    }).catch((error) => {
-      console.log(`get books by genre (category) failed`)
-    })
-  }
-  getBookByDate = async (getDate) => {
-    const date = { added: getDate };
-    const params = createUrlParamFromObj(date);
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}/${params}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      const books = res.data.data;
-      if (books.length > 0) {
-        this.setState({
-          ...this.state,
-          books: books
-        })
-      } else {
-        Swal.fire(
-          'Oops',
-          'there are no books in that date :(. <br>We display the available books',
-          // 'success'
-        ).then(() => {
-          this.getBooks();
-        });
-      }
-    }).catch((error) => {
-      console.log(`get books by date failed`)
-    })
-  }
-  getHistories = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.histories.getAllHistories}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const genres = res.data.data;
-      this.setState({
-        ...this.state,
-        histories: genres
-      })
-    }).catch((error) => {
-      console.log(`get genres (categories) failed`)
-    })
-  }
-  getHistoriesByUserId = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    const userData = decodeJwtToken(token);
-    const search = { user_id: userData.user_id };
-    const params = createUrlParamFromObj(search);
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.histories.getAllHistories}/${params}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const histories = res.data.data;
-      this.setState({
-        ...this.state,
-        myHistories: histories
-      })
-    }).catch((error) => {
-      console.log(`get my histories failed`)
-    })
-  }
-  getSliders = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const sliders = res.data.data;
-      this.setState({
-        ...this.state,
-        sliders: sliders
-      })
-    }).catch((error) => {
-      console.log(`get sliders (categories) failed`)
-    })
-  }
-  getTimes = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.books.getAllBooks}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const books = res.data.data;
-
-      const times = this.generateBookDate(books);
-      this.setState({
-        ...this.state,
-        times: times
-      })
-    }).catch((error) => {
-      console.log(`get times (categories) failed`)
-    })
-  }
-  getBookByKeyword = async (event) => {
-    event.preventDefault();
-    const keyword = event.target.value;
-    if (keyword.length < 1) {
-      this.getBooks()
-      this.setState({
-        ...this.state,
-        searching: false
-      })
-    } else {
-      this.setState({
-        ...this.state,
-        searching: true
-      })
-      const search = {
-        author: keyword,
-        genre: keyword,
-        description: keyword,
-        title: keyword,
-        added: keyword
-      }
-      const params = createUrlParamFromObj(search);
-      const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
       await Axios({
         method: 'GET',
         url: `${apiUri.books.getAllBooks}/${params}`,
@@ -458,76 +282,288 @@ class Home extends Component {
             ...this.state,
             books: books
           })
+        } else {
+          Swal.fire(
+            'Oops',
+            'there are no books in that category :(. <br>We display the available books',
+            // 'success'
+          ).then(() => {
+            this.getBooks();
+          });
         }
       }).catch((error) => {
         console.log(`get books by genre (category) failed`)
       })
     }
   }
+  getBookBySort = async (sortBy) => {
+    const sort = { sort: sortBy };
+    const params = createUrlParamFromObj(sort);
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.books.getAllBooks}/${params}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        const books = res.data.data;
+        if (books.length > 0) {
+          this.setState({
+            ...this.state,
+            books: books
+          })
+        } else {
+          Swal.fire(
+            'Oops',
+            'there are no books in that category :(. <br>We display the available books',
+            // 'success'
+          ).then(() => {
+            this.getBooks();
+          });
+        }
+      }).catch((error) => {
+        console.log(`get books by genre (category) failed`)
+      })
+    }
+  }
+  getBookByDate = async (getDate) => {
+    const date = { added: getDate };
+    const params = createUrlParamFromObj(date);
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.books.getAllBooks}/${params}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        const books = res.data.data;
+        if (books.length > 0) {
+          this.setState({
+            ...this.state,
+            books: books
+          })
+        } else {
+          Swal.fire(
+            'Oops',
+            'there are no books in that date :(. <br>We display the available books',
+            // 'success'
+          ).then(() => {
+            this.getBooks();
+          });
+        }
+      }).catch((error) => {
+        console.log(`get books by date failed`)
+      })
+    }
+  }
+  getHistories = async () => {
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.histories.getAllHistories}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const genres = res.data.data;
+        this.setState({
+          ...this.state,
+          histories: genres
+        })
+      }).catch((error) => {
+        console.log(`get genres (categories) failed`)
+      })
+    }
+  }
+  getHistoriesByUserId = async () => {
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      const userData = decodeJwtToken(token);
+      const search = { user_id: userData.user_id };
+      const params = createUrlParamFromObj(search);
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.histories.getAllHistories}/${params}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const histories = res.data.data;
+        this.setState({
+          ...this.state,
+          myHistories: histories
+        })
+      }).catch((error) => {
+        console.log(`get my histories failed`)
+      })
+    }
+
+  }
+  getSliders = async () => {
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.books.getAllBooks}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const sliders = res.data.data;
+        this.setState({
+          ...this.state,
+          sliders: sliders
+        })
+      }).catch((error) => {
+        console.log(`get sliders (categories) failed`)
+      })
+    }
+  }
+  getTimes = async () => {
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.books.getAllBooks}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const books = res.data.data;
+
+        const times = this.generateBookDate(books);
+        this.setState({
+          ...this.state,
+          times: times
+        })
+      }).catch((error) => {
+        console.log(`get times (categories) failed`)
+      })
+    }
+  }
+  getBookByKeyword = async (keyword) => {
+    if (keyword.length < 1) {
+      this.getBooks()
+    } else {
+      const search = {
+        author: keyword,
+        genre: keyword,
+        description: keyword,
+        title: keyword,
+        added: keyword,
+        page: this.state.pagination.page,
+        limit: this.state.pagination.limit
+      }
+      const params = createUrlParamFromObj(search);
+      const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+      if (token) {
+        await Axios({
+          method: 'GET',
+          url: `${apiUri.books.getAllBooks}/${params}`,
+          headers: {
+            authorization: token
+          }
+        }).then((res) => {
+          const totalPage = res.data.data.totalPage;
+          let pages = [];
+          for (let i = 0; i < totalPage; i++) {
+            pages.push(i);
+          }
+          console.log(res.data.data.totalPage)
+          console.log(pages)
+          const books = res.data.data.result;
+          this.setState({
+            ...this.state,
+            books: books,
+            pagination: {
+              page: this.state.pagination.page,
+              limit: this.state.pagination.limit,
+              totalPage: pages
+            }
+          })
+        }).catch((error) => {
+          console.log(`get books by keyword failed`)
+        })
+      }
+    }
+  }
   getAuthors = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    await Axios({
-      method: 'GET',
-      url: `${apiUri.authors.getAllAuthors}`,
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      // console.log(res);
-      const authors = res.data.data;
-      this.setState({
-        ...this.state,
-        authors: authors
+    if (token) {
+      await Axios({
+        method: 'GET',
+        url: `${apiUri.authors.getAllAuthors}`,
+        headers: {
+          authorization: token
+        }
+      }).then((res) => {
+        // console.log(res);
+        const authors = res.data.data;
+        this.setState({
+          ...this.state,
+          authors: authors
+        })
+      }).catch((error) => {
+        console.log(`get authors failed`)
       })
-    }).catch((error) => {
-      console.log(`get authors failed`)
-    })
+    }
   }
   addBook = async (event) => {
     event.preventDefault();
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    const formData = new FormData(event.target);
-    await Axios({
-      method: 'POST',
-      url: apiUri.books.postBook,
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'authorization': token
-      }
-    }).then((res) => {
-      if (res.status === 201) {
-        Swal.fire(
-          'Add Book Success!',
-          'book added successfully.',
-          'success'
-        ).then(() => {
-          $(document).find('#addBookModal').click()
-        })
-      }
-    }).catch((error) => {
-      // console.log(error.response.data.message);
+    if (token) {
+      const formData = new FormData(event.target);
+      await Axios({
+        method: 'POST',
+        url: apiUri.books.postBook,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'authorization': token
+        }
+      }).then((res) => {
+        if (res.status === 201) {
+          Swal.fire(
+            'Add Book Success!',
+            'book added successfully.',
+            'success'
+          ).then(() => {
+            $(document).find('#addBookModal').click()
+          })
+        }
+      }).catch((error) => {
+        // console.log(error.response.data.message);
 
-      if (error.response.data.message) {
-        Swal.fire(
-          'Add Book Failed!',
-          `${error.response.data.message}`,
-          'error'
-        )
-      } else if (error.response.data.error.message) {
-        Swal.fire(
-          'Add Book Failed!',
-          `${error.response.data.error.message}`,
-          'error'
-        )
-      } else {
-        Swal.fire(
-          'Add Book Failed!',
-          'Please try again',
-          'error'
-        )
-      }
-    })
+        if (error.response.data.message) {
+          Swal.fire(
+            'Add Book Failed!',
+            `${error.response.data.message}`,
+            'error'
+          )
+        } else if (error.response.data.error.message) {
+          Swal.fire(
+            'Add Book Failed!',
+            `${error.response.data.error.message}`,
+            'error'
+          )
+        } else {
+          Swal.fire(
+            'Add Book Failed!',
+            'Please try again',
+            'error'
+          )
+        }
+      })
+    }
   }
   getBooksByPage = (page) => {
     this.setState({
@@ -553,6 +589,16 @@ class Home extends Component {
       }, () => {
         this.getBooks();
       })
+  }
+  searchBooks = event => {
+    event.preventDefault();
+    const keyword = event.target.search.value;
+    this.props.history.push(`/home?search=${keyword}`);
+    if (keyword) {
+      this.getBookByKeyword(keyword);
+    } else {
+      this.getBooks();
+    }
   }
 
   render() {
@@ -711,9 +757,9 @@ class Home extends Component {
     </div>
     // book lists
     const bookLists = []
-    this.state.books.map(book => bookLists.push(<BookCard key={book.book_id} history={this.props.history} bookId={book.book_id} cardImage={book.image} cardTitle={`${book.title.substring(0, 18)}...`} cardText={`${book.description.substring(0, 100)}... `} cardFooter={`by [${book.author_name}][${book.genre_name}]`} />))
+    this.state.books.length > 0 && this.state.books.map(book => bookLists.push(<BookCard key={book.book_id} history={this.props.history} bookId={book.book_id} cardImage={book.image} cardTitle={`${book.title.substring(0, 18)}...`} cardText={`${book.description.substring(0, 100)}... `} cardFooter={`by [${book.author_name}][${book.genre_name}]`} />))
     const slideItems = []
-    this.state.sliders.map(book => slideItems.push(<SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />))
+    this.state.sliders.length > 0 && this.state.sliders.map(book => slideItems.push(<SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />))
 
     return (
       <Container fluid className={style.container}>
@@ -834,18 +880,19 @@ class Home extends Component {
                       </form>
                     </Nav>
                     {/* search input */}
-                    <form className="mx-2 my-auto d-inline w-100">
+                    <Form className="mx-2 my-auto d-inline w-100" onSubmit={(e) => this.searchBooks(e)}>
                       <div className="input-group">
                         <div id={style.space}></div>
                         <span className="input-group-append">
-                          <button className={style.searchButton} onClick={(e) => { e.preventDefault() }}>
+                          <button className={style.searchButton} onClick={null}>
                             <FontAwesomeIcon icon={faSearch} className={style.searchIcon} />
                           </button>
                         </span>
-                        <input type="text" className="form-control" id={style.searchInput} placeholder="Search Book" onChange={(e) => { this.getBookByKeyword(e) }} />
+                        <input type="text" name="search" className="form-control" id={style.searchInput} placeholder="Search Book" />
+                        {/* <input type="text" className="form-control" id={style.searchInput} placeholder="Search Book" onChange={(e) => { this.getBookByKeyword(e) }} /> */}
                         <div id={style.space}></div>
                       </div>
-                    </form>
+                    </Form>
                   </Collapse>
                   {/* navbar brand bottom */}
                   <NavbarBrand href="/" id={style.navbarBrandBottom}>
@@ -875,7 +922,7 @@ class Home extends Component {
                     marginLeft: '15px',
                     textAlign: 'center',
                     padding: 'auto',
-                    display: this.state.searching ? 'none' : 'block'
+                    // display: this.state.searching ? 'none' : 'block'
                   }}>
                     {/* Pagination */}
                     <Button color="warning" onClick={() => { this.getBooksByPage(this.state.pagination.page - 1) }} disabled={this.state.pagination.page === 1 ? true : false}>Prev</Button>

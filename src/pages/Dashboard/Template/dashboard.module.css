@@ -1,0 +1,209 @@
+@media (max-width: 1000px) {
+
+    /* Sidebar */
+    .sidebar {
+        margin-left: -260px;
+    }
+
+    .navbar .sidebarToggle2 {
+        display: block !important;
+    }
+
+    /* Content */
+    .content {
+        margin-left: 0px !important;
+    }
+}
+
+@media (max-width: 768px) {}
+
+@media (max-width: 767px) {
+    #navbarBrandTop {
+        display: block !important;
+    }
+
+    #navbarBrandBottom {
+        display: none;
+    }
+
+    #space {
+        display: none;
+    }
+}
+
+@media (max-width: 657px) {}
+
+@media (max-width: 590px) {}
+
+@media (max-width: 575px) {}
+
+@media (max-width: 456px) {}
+
+@media (max-width: 385px) {}
+
+.container {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Sidebar */
+.sidebar {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    z-index: 7;
+    transition: margin-left 0.15s ease-in-out;
+}
+
+.sidebarOpened {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    z-index: 7;
+    transition: margin-left 0.15s ease-in-out;
+    margin-left: 0px !important;
+}
+
+.sidebar .sidebarToggle1,
+.sidebarOpened .sidebarToggle1 {
+    width: 95% !important;
+    text-align: right;
+}
+
+.sidebar .sidebarToggle1 .sidebarToggleIcon,
+.sidebarOpened .sidebarToggle1 .sidebarToggleIcon {
+    font-size: 20px;
+    margin: 21px;
+}
+
+.navbar .sidebarToggle2 .sidebarToggleIcon {
+    font-size: 20px;
+}
+
+.sidebar .sidebarToggle1 .sidebarToggleIcon:hover,
+.sidebarOpened .sidebarToggle1 .sidebarToggleIcon:hover,
+.content .sidebarToggle2 {
+    cursor: pointer;
+}
+
+.navbar .sidebarToggle2 {
+    display: none;
+    margin-right: 10px;
+    margin-left: 8px;
+}
+
+.sidebar .profile,
+.sidebarOpened .profile {
+    text-align: center;
+    width: 95%;
+}
+
+.sidebar .profile .profileAvatar,
+.sidebarOpened .profile .profileAvatar {
+    margin: 20px 0;
+}
+
+.sidebar .profile .profileAvatar img,
+.sidebarOpened .profile .profileAvatar img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+.sidebar .profile .profileName,
+.sidebarOpened .profile .profileName {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.sidebar .navigation,
+.sidebarOpened .navigation {
+    width: 95%;
+    margin-top: 40px;
+}
+
+.sidebar .navigation .nav,
+.sidebarOpened .navigation .nav {
+    padding: 20px 40px;
+    /* background-color: papayawhip; */
+}
+
+.sidebar .navigation a,
+.sidebarOpened .navigation a {
+    color: #404040;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+}
+
+/* Content */
+.content {
+    background-color: white !important;
+    height: 100vh;
+    margin-left: 250px;
+    padding-top: 100px;
+    transition: margin-left 0.15s ease-in-out;
+}
+
+.content .navbar {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 6;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+}
+
+#navbarBrandTop {
+    display: none;
+}
+
+#navbarBrandTop img,
+#navbarBrandBottom img {
+    width: 25px;
+    margin-right: 5px;
+    margin-top: -5px;
+}
+
+#searchInput {
+    padding-left: 35px;
+    border-radius: 20px;
+    margin: 3px 0;
+}
+
+#space {
+    height: auto;
+    width: 20% !important;
+}
+
+.searchButton {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    z-index: 4;
+    margin-top: 10px;
+    margin-left: 8px;
+    color: #d0d0d0;
+}
+
+.content .slider {
+    z-index: 1;
+    padding: 0 40px;
+}
+
+.content .bookLists {
+    margin: 40px 20px 50px 20px;
+}
+
+.content .bookLists p {
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+}

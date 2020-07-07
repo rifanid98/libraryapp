@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { connect } from 'react-redux';
 
 // third party component
 import {
@@ -27,13 +27,15 @@ import { MyModal } from 'components';
 
 // custom config
 import { apiUri } from 'configs';
+import { decodeJwtToken, convertDate } from 'utils';
+import { getBooks, getAuthors, getCategories, patchBook, deleteBook } from 'modules';
 
 // style
 import style from './detail.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-export default class Detail extends Component {
+class Detail extends Component {
 	constructor(props) {
 		document.title = `Detail`;
 		super(props)
@@ -65,24 +67,14 @@ export default class Detail extends Component {
 	onChange = (stateName, value) => {
 		this.setState({ ...this.state, [stateName]: value })
 	}
-	convertDate = (myDate, showTime = true) => {
-		const newDate = new Date(myDate);
-		const year = newDate.getFullYear();
-		const month = (newDate.getMonth() + 1) < 10 ? `0${newDate.getMonth() + 1}` : newDate.getMonth() + 1;
-		const date = newDate.getDate() < 10 ? `0${newDate.getDate()}` : newDate.getDate();
-		const hours = newDate.getHours() < 10 ? `0${newDate.getHours()}` : newDate.getHours();
-		const minutes = newDate.getMinutes() < 10 ? `0${newDate.getMinutes()}` : newDate.getMinutes();
-		const seconds = newDate.getSeconds() < 10 ? `0${newDate.getSeconds()}` : newDate.getSeconds();
 
-		return showTime ? `${year}-${month}-${date} ${hours}:${minutes}:${seconds}` : `${year}-${month}-${date}`;
-	}
 
 	checkAuth = () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
 		if (!token) {
 			this.props.history.push('/login');
-		} else {
-			const userData = jwtDecode(token);
+		} else if (token !== "undefined") {
+			const userData = decodeJwtToken(token);
 			if (userData.user_id === undefined || null) {
 				this.props.history.push('/login');
 			}
@@ -98,109 +90,90 @@ export default class Detail extends Component {
 	}
 	getDetailBooks = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		await Axios({
-			method: 'GET',
-			url: `${apiUri.books.getDetailBook}/${this.state.book.book_id}`,
-			headers: {
-				authorization: token
-			}
-		}).then((res) => {
-			// console.log(res);
-			const book = res.data.data;
-			this.setState({
-				...this.state,
-				book: book[0],
-				mdTxt: book[0].description
+		const book_id = this.state.book.book_id;
+		this.props.getBooks(token, book_id)
+			.then((res) => {
+				const book = this.props.books.data;
+				console.log(book, 'get detail book')
+				this.setState({
+					...this.state,
+					book: book[0],
+					mdTxt: book[0].description
+				})
+			}).catch((error) => {
+				console.log(error, 'get detail book')
+				console.log(`get books failed`)
 			})
-		}).catch((error) => {
-			console.log(error.response)
-			console.log(`get books failed`)
-		})
 	}
 	getCategories = async () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		await Axios({
-			method: 'GET',
-			url: `${apiUri.genres.getAllGenres}`,
-			headers: {
-				authorization: token
-			}
-		}).then((res) => {
-			// console.log(res);
-			const genres = res.data.data;
-			this.setState({
-				...this.state,
-				genres: genres
-			})
-		}).catch((error) => {
-			console.log(`get genres (categories) failed`)
-		})
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+		if (token) {
+			this.props.getCategories(token)
+				.then((res) => {
+					const genres = this.props.genres.data;
+					this.setState({
+						...this.state,
+						genres: genres
+					})
+				}).catch((error) => {
+					console.log(`get genres (categories) failed`)
+				})
+		}
 	}
 	getAuthors = async () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		await Axios({
-			method: 'GET',
-			url: `${apiUri.authors.getAllAuthors}`,
-			headers: {
-				authorization: token
-			}
-		}).then((res) => {
-			// console.log(res);
-			const authors = res.data.data;
-			this.setState({
-				...this.state,
-				authors: authors
-			})
-		}).catch((error) => {
-			console.log(`get authors failed`)
-		})
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+		if (token) {
+			this.props.getAuthors(token)
+				.then((res) => {
+					const authors = this.props.authors.data;
+					this.setState({
+						...this.state,
+						authors: authors
+					})
+				}).catch((error) => {
+					console.log(`get authors failed`)
+				})
+		}
 	}
+
 	updateBook = async (event) => {
 		event.preventDefault();
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 		const formData = new FormData(event.target);
-		const param = this.state.book.book_id;
+		const book_id = this.state.book.book_id;
 		if (formData.get('title') === this.state.book.title) {
 			formData.delete('title');
 		}
-
-		await Axios({
-			method: 'PATCH',
-			url: `${apiUri.books.patchBook}/${param}`,
-			data: formData,
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				'authorization': token
-			}
-		}).then((res) => {
-			if (res.status === 200) {
-				this.getDetailBooks();
-				Swal.fire(
-					'Update Book Success!',
-					'book updated successfully.',
-					'success'
-				).then(() => {
-					$(document).find('#editBookModal').click()
-				})
-			}
-		}).catch((error) => {
-			console.log(error.response.data);
-			error.response.data.message
-				? Swal.fire(
-					'Update Book Failed!',
-					`${error.response.data.message}`,
-					'error'
-				)
-				: Swal.fire(
-					'Update Book Failed!',
-					'Please try again',
-					'error'
-				)
-		})
+		this.props.patchBook(token, formData, book_id)
+			.then((res) => {
+				if (res.value.status === 200) {
+					this.getDetailBooks();
+					Swal.fire(
+						'Update Book Success!',
+						'book updated successfully.',
+						'success'
+					).then(() => {
+						$(document).find('#editBookModal').click()
+					})
+				}
+			}).catch((error) => {
+				console.log(error.response.data);
+				error.response.data.message
+					? Swal.fire(
+						'Update Book Failed!',
+						`${error.response.data.message}`,
+						'error'
+					)
+					: Swal.fire(
+						'Update Book Failed!',
+						'Please try again',
+						'error'
+					)
+			})
 	}
 	deleteBook = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const param = this.state.book.book_id;
+		const book_id = this.state.book.book_id;
 		Swal.fire({
 			title: 'Are you sure?',
 			text: "You won't be able to revert this!",
@@ -211,42 +184,37 @@ export default class Detail extends Component {
 			confirmButtonText: 'Yes, delete it!'
 		}).then(async (result) => {
 			if (result.value) {
-				await Axios({
-					method: 'DELETE',
-					url: `${apiUri.books.deleteBook}/${param}`,
-					headers: {
-						'authorization': token
-					}
-				}).then((res) => {
-					if (res.status === 200) {
-						Swal.fire(
-							'Delete Book Success!',
-							'book deleted successfully.',
-							'success'
-						).then(() => {
-							this.props.history.push('/home');
-						})
-					}
-				}).catch((error) => {
-					console.log(error.response.data);
-					error.response.data.message
-						? Swal.fire(
-							'Delete Book Failed!',
-							`${error.response.data.message}`,
-							'error'
-						)
-						: Swal.fire(
-							'Delete Book Failed!',
-							'Please try again',
-							'error'
-						)
-				})
+				this.props.deleteBook(token, book_id)
+					.then((res) => {
+						if (res.value.status === 200) {
+							Swal.fire(
+								'Delete Book Success!',
+								'book deleted successfully.',
+								'success'
+							).then(() => {
+								this.props.history.push('/home');
+							})
+						}
+					}).catch((error) => {
+						// console.log(error.response.data);
+						error.response.data.message
+							? Swal.fire(
+								'Delete Book Failed!',
+								`${error.response.data.message}`,
+								'error'
+							)
+							: Swal.fire(
+								'Delete Book Failed!',
+								'Please try again',
+								'error'
+							)
+					})
 			}
 		})
 	}
 	checkBorrowedBook = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const userData = jwtDecode(token);
+		const userData = decodeJwtToken(token);
 		const bookId = this.state.book.book_id;
 		const userId = userData.user_id;
 		await Axios({
@@ -428,7 +396,7 @@ export default class Detail extends Component {
 							<Col md="9" sm="9" className={style.title}>
 								<span>{this.state.book.genre_name}</span>
 								<h1>{this.state.book.title}</h1>
-								<small>{this.convertDate(this.state.book.added)}</small>
+								<small>{convertDate(this.state.book.added)}</small>
 							</Col>
 							{/* status */}
 							<Col md="3" sm="3" className={style.status}>
@@ -459,3 +427,20 @@ export default class Detail extends Component {
 		)
 	}
 }
+
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	books: state.books,
+	authors: state.authors,
+	genres: state.genres
+})
+
+const mapDispathToProps = {
+	getBooks,
+	getCategories,
+	getAuthors,
+	patchBook,
+	deleteBook
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(Detail)

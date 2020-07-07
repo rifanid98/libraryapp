@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { logout } from 'modules';
+import { connect } from 'react-redux';
 
-export default class Logout extends Component {
-  componentDidMount() {
+class Logout extends Component {
+  constructor(props) {
+    super(props)
     this.setState({
       empty: ''
     })
@@ -9,6 +12,9 @@ export default class Logout extends Component {
     sessionStorage.removeItem('token');
     localStorage.clear();
     sessionStorage.clear();
+  }
+  componentDidMount() {
+    this.props.logout()
     this.props.history.push('/login');
   }
 
@@ -20,3 +26,13 @@ export default class Logout extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+
+}
+
+const mapDispatchToProps = {
+  logout
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout)

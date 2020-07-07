@@ -11,5 +11,7 @@ export {
     Home,
     Detail,
     Training,
-    Logout
+    Logout,
 };
+
+export * from './Dashboard';

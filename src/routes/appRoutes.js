@@ -1,6 +1,5 @@
 import React from 'react'
-import { Login, Signup, Home, Detail, Logout } from 'pages';
-
+import { Login, Signup, Home, Detail, Logout, Index as DashboardBooks, } from 'pages';
 
 const notfound = () => {
   return (
@@ -10,6 +9,12 @@ const notfound = () => {
 
 const appRoutes = [
 
+  {
+    name: "Dashboard",
+    component: DashboardBooks,
+    exact: true,
+    path: "/dashboard/:page"
+  },
   {
     name: "Detail",
     component: Detail,

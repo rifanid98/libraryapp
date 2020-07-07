@@ -1,6 +1,12 @@
 import moment from "moment";
+import { useEffect, useRef } from "react";
 
 export const getPath = (path = "") => (path ? `/${path}` : "");
+export const getCustomUrl = (url = "") => url;
+export const createHeader = (value = {}, base = {}) => ({
+  ...base,
+  ...value
+});
 
 export const createUrlParamFromObj = (params = null) => {
   if (!params) return "";
@@ -8,8 +14,6 @@ export const createUrlParamFromObj = (params = null) => {
   Object.keys(params).map(key => result.push(`${key}=${params[key]}`));
   return `?${result.join("&")}`;
 };
-
-export const getCustomUrl = (url = "") => url;
 
 export const getContentType = (type = "") => {
   switch (type) {
@@ -19,11 +23,6 @@ export const getContentType = (type = "") => {
       return "application/json";
   }
 };
-
-export const createHeader = (value = {}, base = {}) => ({
-  ...base,
-  ...value
-});
 
 export const handleAsync = async promise => {
   try {
@@ -60,3 +59,37 @@ export const convertISODate = (myDate, showTime = true) => {
 
   return showTime ? `${year}-${month}-${date} ${hours}:${minutes}:${seconds}` : `${year}-${month}-${date}`;
 }
+
+export const useEventListener = (eventName, handler, element = window) => {
+  // Create a ref that stores handler
+  const savedHandler = useRef();
+
+  // Update ref.current value if handler changes.
+  // This allows our effect below to always get latest handler ...
+  // ... without us needing to pass it in effect deps array ...
+  // ... and potentially cause effect to re-run every render.
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+
+  useEffect(
+    () => {
+      // Make sure element supports addEventListener
+      // On 
+      const isSupported = element && element.addEventListener;
+      if (!isSupported) return;
+
+      // Create event listener that calls handler function stored in ref
+      const eventListener = event => savedHandler.current(event);
+
+      // Add event listener
+      element.addEventListener(eventName, eventListener);
+
+      // Remove event listener on cleanup
+      return () => {
+        element.removeEventListener(eventName, eventListener);
+      };
+    },
+    [eventName, element] // Re-run if eventName or element changes
+  );
+};

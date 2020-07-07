@@ -1,7 +1,6 @@
 // library
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
 import $ from 'jquery';
 
 // third party component
@@ -58,7 +57,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // custom config
-import { apiUri } from 'configs';
 import {
   createUrlParamFromObj,
   decodeJwtToken,
@@ -68,6 +66,13 @@ import {
 // custom style
 import style from './home.module.css';
 import { connect } from 'react-redux';
+import {
+  getBooks,
+  getCategories,
+  getHistories,
+  getAuthors,
+  addBook
+} from 'modules';
 
 class Home extends Component {
   constructor(props) {
@@ -86,9 +91,11 @@ class Home extends Component {
       user: {
         id: 0,
         name: '',
-        role: 0
+        role: 0,
+        image: ''
       },
 
+      bookBanks: [],
       books: [],
       genres: [],
       authors: [],
@@ -166,6 +173,7 @@ class Home extends Component {
       }
     }, () => {
       $('#navbar').width(this.state.content.width);
+      console.log(this.state.content.width)
     });
   }
   getKeyword = () => {
@@ -200,7 +208,8 @@ class Home extends Component {
         user: {
           id: userData.user_id,
           name: userData.name,
-          role: userData.role
+          role: userData.role,
+          image: userData.image
         }
       })
     }
@@ -213,55 +222,45 @@ class Home extends Component {
     const params = createUrlParamFromObj(pagination);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}/${params}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const totalPage = res.data.data.totalPage;
-        let pages = [];
-        for (let i = 0; i < totalPage; i++) {
-          pages.push(i);
-        }
-        const books = res.data.data.result;
-
-        this.setState({
-          ...this.state,
-          books: books,
-          sorts: books,
-          pagination: {
-            page: this.state.pagination.page,
-            limit: this.state.pagination.limit,
-            totalPage: pages
+      this.props.getBooks(token, params)
+        .then((res) => {
+          const data = this.props.books.data;
+          const totalPage = data.totalPage;
+          let pages = [];
+          for (let i = 0; i < totalPage; i++) {
+            pages.push(i);
           }
+          const books = data.result;
+
+          this.setState({
+            ...this.state,
+            bankBooks: books,
+            books: books,
+            sorts: books,
+            pagination: {
+              page: this.state.pagination.page,
+              limit: this.state.pagination.limit,
+              totalPage: pages
+            }
+          })
+        }).catch((error) => {
+          console.log(`get books failed`)
         })
-      }).catch((error) => {
-        console.log(`get books failed`)
-      })
     }
   }
   getCategories = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.genres.getAllGenres}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const genres = res.data.data;
-        this.setState({
-          ...this.state,
-          genres: genres
+      this.props.getCategories(token)
+        .then((res) => {
+          const genres = this.props.genres.data;
+          this.setState({
+            ...this.state,
+            genres: genres
+          })
+        }).catch((error) => {
+          console.log(`get genres (categories) failed`)
         })
-      }).catch((error) => {
-        console.log(`get genres (categories) failed`)
-      })
     }
   }
   getBookByCategory = async (categoryName) => {
@@ -269,31 +268,27 @@ class Home extends Component {
     const params = createUrlParamFromObj(categories);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}/${params}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        const books = res.data.data;
-        if (books.length > 0) {
-          this.setState({
-            ...this.state,
-            books: books
-          })
-        } else {
-          Swal.fire(
-            'Oops',
-            'there are no books in that category :(. <br>We display the available books',
-            // 'success'
-          ).then(() => {
-            this.getBooks();
-          });
-        }
-      }).catch((error) => {
-        console.log(`get books by genre (category) failed`)
-      })
+      this.props.getBooks(token, params)
+        .then((res) => {
+          const books = this.props.books.data;
+          // const books = res.data.data;
+          if (books.length > 0) {
+            this.setState({
+              ...this.state,
+              books: books
+            })
+          } else {
+            Swal.fire(
+              'Oops',
+              'there are no books in that category :(. <br>We display the available books',
+              // 'success'
+            ).then(() => {
+              this.getBooks();
+            });
+          }
+        }).catch((error) => {
+          console.log(`get books by genre (category) failed`)
+        })
     }
   }
   getBookBySort = async (sortBy) => {
@@ -301,31 +296,26 @@ class Home extends Component {
     const params = createUrlParamFromObj(sort);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}/${params}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        const books = res.data.data;
-        if (books.length > 0) {
-          this.setState({
-            ...this.state,
-            books: books
-          })
-        } else {
-          Swal.fire(
-            'Oops',
-            'there are no books in that category :(. <br>We display the available books',
-            // 'success'
-          ).then(() => {
-            this.getBooks();
-          });
-        }
-      }).catch((error) => {
-        console.log(`get books by genre (category) failed`)
-      })
+      this.props.getBooks(token, params)
+        .then((res) => {
+          const books = this.props.books.data;
+          if (books.length > 0) {
+            this.setState({
+              ...this.state,
+              books: books
+            })
+          } else {
+            Swal.fire(
+              'Oops',
+              'there are no books in that category :(. <br>We display the available books',
+              // 'success'
+            ).then(() => {
+              this.getBooks();
+            });
+          }
+        }).catch((error) => {
+          console.log(`get books by genre (category) failed`)
+        })
     }
   }
   getBookByDate = async (getDate) => {
@@ -333,52 +323,42 @@ class Home extends Component {
     const params = createUrlParamFromObj(date);
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}/${params}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        const books = res.data.data;
-        if (books.length > 0) {
-          this.setState({
-            ...this.state,
-            books: books
-          })
-        } else {
-          Swal.fire(
-            'Oops',
-            'there are no books in that date :(. <br>We display the available books',
-            // 'success'
-          ).then(() => {
-            this.getBooks();
-          });
-        }
-      }).catch((error) => {
-        console.log(`get books by date failed`)
-      })
+      this.props.getBooks(token, params)
+        .then((res) => {
+          const books = this.props.books.data;
+          if (books.length > 0) {
+            this.setState({
+              ...this.state,
+              books: books
+            })
+          } else {
+            Swal.fire(
+              'Oops',
+              'there are no books in that date :(. <br>We display the available books',
+              // 'success'
+            ).then(() => {
+              this.getBooks();
+            });
+          }
+        }).catch((error) => {
+          console.log(`get books by date failed`)
+        })
     }
   }
   getHistories = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.histories.getAllHistories}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const genres = res.data.data;
-        this.setState({
-          ...this.state,
-          histories: genres
+      this.props.getHistories(token)
+        .then((res) => {
+          // console.log(res);
+          const histories = this.props.histories.data;
+          this.setState({
+            ...this.state,
+            histories: histories
+          })
+        }).catch((error) => {
+          console.log(`get histories (categories) failed`)
         })
-      }).catch((error) => {
-        console.log(`get genres (categories) failed`)
-      })
     }
   }
   getHistoriesByUserId = async () => {
@@ -387,67 +367,48 @@ class Home extends Component {
       const userData = decodeJwtToken(token);
       const search = { user_id: userData.user_id };
       const params = createUrlParamFromObj(search);
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.histories.getAllHistories}/${params}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const histories = res.data.data;
-        this.setState({
-          ...this.state,
-          myHistories: histories
+      this.props.getHistories(token, params)
+        .then((res) => {
+          const histories = this.props.histories.data
+          this.setState({
+            ...this.state,
+            myHistories: histories
+          })
+        }).catch((error) => {
+          console.log(`get my histories failed`)
         })
-      }).catch((error) => {
-        console.log(`get my histories failed`)
-      })
     }
 
   }
   getSliders = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const sliders = res.data.data;
-        this.setState({
-          ...this.state,
-          sliders: sliders
+      this.props.getBooks(token)
+        .then((res) => {
+          const sliders = this.props.books.data;
+          this.setState({
+            ...this.state,
+            sliders: sliders
+          })
+        }).catch((error) => {
+          console.log(`get sliders (categories) failed`)
         })
-      }).catch((error) => {
-        console.log(`get sliders (categories) failed`)
-      })
     }
   }
   getTimes = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.books.getAllBooks}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const books = res.data.data;
-
-        const times = this.generateBookDate(books);
-        this.setState({
-          ...this.state,
-          times: times
+      this.props.getBooks(token)
+        .then((res) => {
+          const books = this.props.books.data;
+          const times = this.generateBookDate(books);
+          this.setState({
+            ...this.state,
+            times: times
+          })
+        }).catch((error) => {
+          console.log(`get times (categories) failed`)
         })
-      }).catch((error) => {
-        console.log(`get times (categories) failed`)
-      })
     }
   }
   getBookByKeyword = async (keyword) => {
@@ -466,55 +427,43 @@ class Home extends Component {
       const params = createUrlParamFromObj(search);
       const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
       if (token) {
-        await Axios({
-          method: 'GET',
-          url: `${apiUri.books.getAllBooks}/${params}`,
-          headers: {
-            authorization: token
-          }
-        }).then((res) => {
-          const totalPage = res.data.data.totalPage;
-          let pages = [];
-          for (let i = 0; i < totalPage; i++) {
-            pages.push(i);
-          }
-          console.log(res.data.data.totalPage)
-          console.log(pages)
-          const books = res.data.data.result;
-          this.setState({
-            ...this.state,
-            books: books,
-            pagination: {
-              page: this.state.pagination.page,
-              limit: this.state.pagination.limit,
-              totalPage: pages
+        this.props.getBooks(token, params)
+          .then((res) => {
+            console.log(this.props.data, 'get books by keyword')
+            const totalPage = this.props.books.data.totalPage;
+            let pages = [];
+            for (let i = 0; i < totalPage; i++) {
+              pages.push(i);
             }
+            const books = this.props.books.data.result;
+            this.setState({
+              ...this.state,
+              books: books,
+              pagination: {
+                page: this.state.pagination.page,
+                limit: this.state.pagination.limit,
+                totalPage: pages
+              }
+            })
+          }).catch((error) => {
+            console.log(`get books by keyword failed`)
           })
-        }).catch((error) => {
-          console.log(`get books by keyword failed`)
-        })
       }
     }
   }
   getAuthors = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
-      await Axios({
-        method: 'GET',
-        url: `${apiUri.authors.getAllAuthors}`,
-        headers: {
-          authorization: token
-        }
-      }).then((res) => {
-        // console.log(res);
-        const authors = res.data.data;
-        this.setState({
-          ...this.state,
-          authors: authors
+      this.props.getAuthors(token)
+        .then((res) => {
+          const authors = this.props.authors.data;
+          this.setState({
+            ...this.state,
+            authors: authors
+          })
+        }).catch((error) => {
+          console.log(`get authors failed`)
         })
-      }).catch((error) => {
-        console.log(`get authors failed`)
-      })
     }
   }
   addBook = async (event) => {
@@ -522,47 +471,40 @@ class Home extends Component {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
     if (token) {
       const formData = new FormData(event.target);
-      await Axios({
-        method: 'POST',
-        url: apiUri.books.postBook,
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'authorization': token
-        }
-      }).then((res) => {
-        if (res.status === 201) {
-          Swal.fire(
-            'Add Book Success!',
-            'book added successfully.',
-            'success'
-          ).then(() => {
-            $(document).find('#addBookModal').click()
-          })
-        }
-      }).catch((error) => {
-        // console.log(error.response.data.message);
-
-        if (error.response.data.message) {
-          Swal.fire(
-            'Add Book Failed!',
-            `${error.response.data.message}`,
-            'error'
-          )
-        } else if (error.response.data.error.message) {
-          Swal.fire(
-            'Add Book Failed!',
-            `${error.response.data.error.message}`,
-            'error'
-          )
-        } else {
-          Swal.fire(
-            'Add Book Failed!',
-            'Please try again',
-            'error'
-          )
-        }
-      })
+      this.props.addBook(token, formData)
+        .then((res) => {
+          console.log(res.value.status, 'status')
+          if (res.value.status === 201) {
+            Swal.fire(
+              'Add Book Success!',
+              'book added successfully.',
+              'success'
+            ).then(() => {
+              $(document).find('#addBookModal').click()
+            })
+          }
+        }).catch((error) => {
+          // console.log(error.response.data.message);
+          if (error.response.data.message) {
+            Swal.fire(
+              'Add Book Failed!',
+              `${error.response.data.message}`,
+              'error'
+            )
+          } else if (error.response.data.error.message) {
+            Swal.fire(
+              'Add Book Failed!',
+              `${error.response.data.error.message}`,
+              'error'
+            )
+          } else {
+            Swal.fire(
+              'Add Book Failed!',
+              'Please try again',
+              'error'
+            )
+          }
+        })
     }
   }
   getBooksByPage = (page) => {
@@ -778,7 +720,7 @@ class Home extends Component {
                 {/* Profile Avatar */}
                 <Row>
                   <Col className={style.profileAvatar}>
-                    <img src="https://i.pravatar.cc/300" alt="" />
+                    <img src={this.state.user.image} alt="" />
                     {/* <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" alt="" /> */}
                   </Col>
                 </Row>
@@ -794,11 +736,12 @@ class Home extends Component {
             <Row>
               <div className={style.navigation}>
                 <Nav vertical className={style.nav}>
-                  <Link className="nav-link" to="/login">Explore</Link>
+                  <Link className="nav-link" to="/home">Explore</Link>
                   <MyModal id="historyModal" modalTitle="Histories" modalBody={historyModalBody} size="lg" />
                   <Link className="nav-link" to="#" onClick={() => { $('#historyModal').click() }}>History</Link>
                   <MyModal id="addBookModal" modalTitle="Add Data" modalBody={addModalBody} size="lg" />
                   {this.state.user.role < 3 && <Link className="nav-link" to="#" onClick={() => { $('#addBookModal').click() }}>Add Book*</Link>}
+                  {this.state.user.role < 3 && <Link className="nav-link" to="/dashboard">Dashboard*</Link>}
                   <Link className="nav-link" to="/logout">Log Out</Link>
                 </Nav>
               </div>
@@ -944,7 +887,19 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  books: state.books,
+  genres: state.genres,
+  histories: state.histories,
+  authors: state.authors,
 })
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = {
+  getBooks,
+  getCategories,
+  getHistories,
+  getAuthors,
+  addBook
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

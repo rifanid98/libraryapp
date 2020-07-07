@@ -8,16 +8,16 @@ const initialState = {
 }
 
 
-const auth = (state = initialState, action) => {
+const genres = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.LOGIN_PENDING:
+    case actionType.GENRES_PENDING:
       return {
         ...state,
         isLoading: true,
         isError: false
       }
 
-    case actionType.LOGIN_REJECTED:
+    case actionType.GENRES_REJECTED:
       return {
         ...state,
         isLoading: false,
@@ -25,22 +25,18 @@ const auth = (state = initialState, action) => {
         errorMsg: 'Data Rejected'
       }
 
-    case actionType.LOGIN_FULFILLED:
+    case actionType.GENRES_FULFILLED:
+
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload.data.data[0]
+        data: action.payload.data.data
       }
 
-    case actionType.LOGOUT:
-      return {
-        ...state,
-        ...initialState
-      }
     default:
       return state;
   }
 }
 
-export default auth;
+export default genres;

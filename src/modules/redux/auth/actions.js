@@ -15,3 +15,9 @@ export const login = (data) => {
     })
   }
 }
+
+export const logout = () => {
+  return {
+    type: actionType.LOGOUT
+  }
+}

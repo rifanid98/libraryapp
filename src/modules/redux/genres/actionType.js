@@ -1,0 +1,8 @@
+const actionType = {
+  GENRES: 'GENRES',
+  GENRES_PENDING: 'GENRES_PENDING',
+  GENRES_REJECTED: 'GENRES_REJECTED',
+  GENRES_FULFILLED: 'GENRES_FULFILLED'
+}
+
+export default actionType;

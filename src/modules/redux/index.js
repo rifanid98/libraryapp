@@ -2,27 +2,57 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import reduxPromise from 'redux-promise-middleware';
 import logger from "redux-logger";
 
-import auth from './auth/reducer';
+// Persist Library
+import { persistReducer } from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+
 
 /**
  * reducer
  */
-export const reducer = combineReducers({
-  auth
+import auth from './auth/reducer';
+import books from "./books/reducer";
+import genres from "./genres/reducer";
+import histories from "./histories/reducer";
+import authors from "./authors/reducer";
+
+// Combine The Reducers
+const reducer = combineReducers({
+  auth,
+  books,
+  genres,
+  histories,
+  authors
 })
+
+/**
+ * PersistConfig
+ */
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ["auth"]
+}
+
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 /**
  * store
  */
 export const store = createStore(
-  reducer,
-  applyMiddleware(reduxPromise, logger)
+  persistedReducer,
+  applyMiddleware(reduxPromise)
+  // applyMiddleware(reduxPromise, logger)
 );
 
 /**
  * dispatcher
  */
 export * from './auth/actions';
+export * from './books/actions';
+export * from './genres/actions';
+export * from './histories/actions';
+export * from './authors/actions';
 
 /**
  * selector

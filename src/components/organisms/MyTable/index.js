@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 
 const MyTable = (props) => {
@@ -7,13 +7,21 @@ const MyTable = (props) => {
     tableBody,
   } = props;
 
+  const [theadState] = useState(tableHead);
+  const [tbodyState, setTbodyState] = useState(tableBody);
+
+  // tableBody didupdate
+  useEffect(() => {
+    setTbodyState(tableBody)
+  }, [tableBody])
+
   return (
     <Table responsive>
       <thead>
         <tr>
           <th>#</th>
-          {tableHead.length > 0
-            ? tableHead.map((thead, index) => {
+          {theadState.length > 0
+            ? theadState.map((thead, index) => {
               return (
                 <th key={index}>{thead.title}</th>
               )
@@ -27,9 +35,9 @@ const MyTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {tableBody
-          ? tableBody.length > 0
-            ? tableBody.map(tbody => {
+        {tbodyState
+          ? tbodyState.length > 0
+            ? tbodyState.map(tbody => {
               return (
                 <tr>
                   <th scope="row">{tbody}</th>
@@ -40,10 +48,10 @@ const MyTable = (props) => {
                 </tr>
               )
             })
-            : tableBody
+            : tbodyState
           : [1, 2, 3, 4].map(tbody => {
             return (
-              <tr>
+              <tr key={tbody}>
                 <th scope="row">{tbody}</th>
                 <td>Table cell 1</td>
                 <td>Table cell 2</td>

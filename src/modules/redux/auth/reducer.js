@@ -16,7 +16,6 @@ const auth = (state = initialState, action) => {
         isLoading: true,
         isError: false
       }
-
     case actionType.LOGIN_REJECTED:
       return {
         ...state,
@@ -24,12 +23,12 @@ const auth = (state = initialState, action) => {
         isError: true,
         errorMsg: 'Data Rejected'
       }
-
     case actionType.LOGIN_FULFILLED:
       return {
         ...state,
         isLoading: false,
         isError: false,
+        errorMsg: '',
         data: action.payload.data.data[0]
       }
 

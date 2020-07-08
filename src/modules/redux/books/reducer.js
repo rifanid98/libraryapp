@@ -28,6 +28,7 @@ const books = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
+        errorMsg: '',
         data: action.payload.data.data
       }
 
@@ -45,12 +46,11 @@ const books = (state = initialState, action) => {
         errorMsg: 'Data Rejected'
       }
     case actionType.ADD_BOOK_FULFILLED:
-
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        errorMsg: '',
       }
 
     case actionType.PATCH_BOOK_PENDING:
@@ -67,12 +67,11 @@ const books = (state = initialState, action) => {
         errorMsg: 'Data Rejected'
       }
     case actionType.PATCH_BOOK_FULFILLED:
-
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        errorMsg: '',
       }
 
     case actionType.DELETE_BOOK_PENDING:
@@ -89,12 +88,11 @@ const books = (state = initialState, action) => {
         errorMsg: 'Data Rejected'
       }
     case actionType.DELETE_BOOK_FULFILLED:
-
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        errorMsg: '',
       }
 
     default:

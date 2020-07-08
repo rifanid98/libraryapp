@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { decodeJwtToken } from 'utils';
 import { Template as DashboardTemplate } from 'pages';
 import { connect } from 'react-redux';
-import { Books as BooksContent } from 'components';
+import { Books as BooksContent, Genres, Authors, Users } from 'components';
 import { useParams } from 'react-router-dom';
 
 const Index = (props) => {
   const [auth] = useState(props.auth.data)
   const [profile, setProfile] = useState({});
-  const [books] = useState(props.books.data)
-  const [authors] = useState(props.authors.data)
-  const [genres] = useState(props.genres.data)
   const params = useParams();
   const pages = {
     books: 'books',
@@ -21,6 +18,7 @@ const Index = (props) => {
   }
   useEffect(() => {
     checkAuth();
+    checkRole();
   }, [])
 
   const checkAuth = () => {
@@ -40,13 +38,33 @@ const Index = (props) => {
       })
     }
   }
-
+  const checkRole = () => {
+    // is not a user but higher (2,1)
+    if (auth.role > 2) {
+      props.history.push('/dashboard/profile')
+    }
+  }
   return (
     <div>
       {params.page === 'books' && <DashboardTemplate
         title="Books"
         state={profile}
-        components={<BooksContent auth={auth} data={{ books, authors, genres, profile }} />}
+        components={<BooksContent auth={auth} />}
+      />}
+      {params.page === 'genres' && <DashboardTemplate
+        title="Genres"
+        state={profile}
+        components={<Genres auth={auth} />}
+      />}
+      {params.page === 'authors' && <DashboardTemplate
+        title="Authors"
+        state={profile}
+        components={<Authors auth={auth} />}
+      />}
+      {params.page === 'users' && <DashboardTemplate
+        title="Users"
+        state={profile}
+        components={<Users auth={auth} />}
       />}
       {params.page in pages === false && <p>Not Found</p>}
     </div>

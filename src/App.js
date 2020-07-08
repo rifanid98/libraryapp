@@ -13,6 +13,9 @@ const App = () => {
         <Route path="/" exact>
           <Redirect to="/home"></Redirect>
         </Route>
+        <Route path="/dashboard" exact>
+          <Redirect to="/dashboard/books"></Redirect>
+        </Route>
         {userRoutes.map((route, index) => <Route key={index} {...route} />)}
         {appRoutes.map((route, index) => <Route key={index} {...route} />)}
       </Switch>

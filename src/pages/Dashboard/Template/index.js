@@ -109,7 +109,7 @@ const Template = (props) => {
             <div className={style.navigation}>
               <Nav vertical className={style.nav}>
                 <Link className="nav-link" to="/home">Explore</Link>
-                {user.role < 3 && <Link className="nav-link" to="/dashboard">Dashboard*</Link>}
+                <Link className="nav-link" to="/dashboard">Dashboard</Link>
                 <Link className="nav-link" to="/logout">Log Out</Link>
               </Nav>
             </div>

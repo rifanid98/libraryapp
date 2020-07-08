@@ -10,9 +10,6 @@ import {
   Row,
 
   Form,
-  FormGroup,
-  Label,
-  Input,
   Button,
   // Textarea
 
@@ -33,7 +30,7 @@ import {
 
   Table
 } from 'reactstrap';
-import { Textarea as MdTextarea } from 'reactstrap-md-textarea';
+
 import Slider from "react-slick";
 import Swal from 'sweetalert2';
 
@@ -95,15 +92,12 @@ class Home extends Component {
         image: ''
       },
 
-      bookBanks: [],
+      bankBooks: [],
       books: [],
-      genres: [],
       authors: [],
       histories: [],
       myHistories: [],
-      times: [],
       sorts: [],
-      sliders: [],
 
       pagination: {
         page: 1,
@@ -123,18 +117,16 @@ class Home extends Component {
 
   componentDidMount() {
     this.checkAuth();
+
     const keyword = this.getKeyword();
     if (keyword) {
       this.getBookByKeyword(keyword);
     } else {
       this.getBooks();
     }
-    this.getCategories();
+    this.getBankBooks();
     this.getHistories();
     this.getHistoriesByUserId();
-    this.getAuthors();
-    this.getSliders();
-    this.getTimes();
     window.addEventListener('resize', this.updateDimensions);
 
     const contentWidth = $('#content').width();
@@ -195,7 +187,7 @@ class Home extends Component {
     return tempDates;
   }
   checkAuth = () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data.tokenLogin;
     if (!token) {
       this.props.history.push('/login');
     } else if (token !== "undefined") {
@@ -234,7 +226,6 @@ class Home extends Component {
 
           this.setState({
             ...this.state,
-            bankBooks: books,
             books: books,
             sorts: books,
             pagination: {
@@ -248,18 +239,18 @@ class Home extends Component {
         })
     }
   }
-  getCategories = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+  getBankBooks = () => {
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data.tokenLogin;
     if (token) {
-      this.props.getCategories(token)
+      this.props.getBooks(token)
         .then((res) => {
-          const genres = this.props.genres.data;
+          const books = this.props.books.data;
           this.setState({
             ...this.state,
-            genres: genres
+            bankBooks: books,
           })
         }).catch((error) => {
-          console.log(`get genres (categories) failed`)
+          console.log(`get bank books failed`)
         })
     }
   }
@@ -380,37 +371,6 @@ class Home extends Component {
     }
 
   }
-  getSliders = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    if (token) {
-      this.props.getBooks(token)
-        .then((res) => {
-          const sliders = this.props.books.data;
-          this.setState({
-            ...this.state,
-            sliders: sliders
-          })
-        }).catch((error) => {
-          console.log(`get sliders (categories) failed`)
-        })
-    }
-  }
-  getTimes = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    if (token) {
-      this.props.getBooks(token)
-        .then((res) => {
-          const books = this.props.books.data;
-          const times = this.generateBookDate(books);
-          this.setState({
-            ...this.state,
-            times: times
-          })
-        }).catch((error) => {
-          console.log(`get times (categories) failed`)
-        })
-    }
-  }
   getBookByKeyword = async (keyword) => {
     if (keyword.length < 1) {
       this.getBooks()
@@ -449,21 +409,6 @@ class Home extends Component {
             console.log(`get books by keyword failed`)
           })
       }
-    }
-  }
-  getAuthors = async () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
-    if (token) {
-      this.props.getAuthors(token)
-        .then((res) => {
-          const authors = this.props.authors.data;
-          this.setState({
-            ...this.state,
-            authors: authors
-          })
-        }).catch((error) => {
-          console.log(`get authors failed`)
-        })
     }
   }
   addBook = async (event) => {
@@ -587,29 +532,6 @@ class Home extends Component {
       ]
     };
 
-    // const allHistories = <Table style={{ textAlign: 'center' }}>
-    //   <thead>
-    //     <tr>
-    //       <th>No.</th>
-    //       <th>Book Title</th>
-    //       <th>User</th>
-    //       <th>Date</th>
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     {this.state.histories.map((history, index) => {
-    //       return (
-    //         <tr key={index}>
-    //           <th scope="row">{index + 1}</th>
-    //           <td>{history.title.substring(0, 40)}...</td>
-    //           <td>{history.username}</td>
-    //           <td>{convertISODate(history.updated)}</td>
-    //         </tr>
-    //       )
-    //     })}
-    //   </tbody>
-    // </Table>;
-
     const myHistories = <Table style={{ textAlign: 'center' }}>
       <thead>
         <tr>
@@ -641,68 +563,12 @@ class Home extends Component {
         {myHistories}
       </div>
     </div>
-    const addModalBody = <div>
-      <Form onSubmit={this.addBook}>
-        <FormGroup>
-          <Label for="">Title</Label>
-          <Input type="text" name="title" placeholder="title here" required />
-        </FormGroup>
-        <FormGroup>
-          <Label for="l">Image</Label>
-          <Input type="file" name="image" />
-        </FormGroup>
-        <FormGroup>
-          <Label for="">Author</Label>
-          <Input type="select" name="author_id" required>
-            {this.state.authors.map(author => {
-              return (
-                <option key={author.author_id} value={author.author_id}>{author.name}</option>
-              )
-            })}
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="">Genre</Label>
-          <Input type="select" name="genre_id" required>
-            {this.state.genres.map(genre => {
-              return (
-                <option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
-              )
-            })}
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="">Status</Label>
-          <Input type="select" name="status" required>
-            <option key="0" value="0">Available</option>
-            <option key="1" value="1">Not Available</option>
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="">Quantity</Label>
-          <Input type="number" name="quantity" placeholder="quantity" min="1" pattern="[0-9]" required />
-        </FormGroup>
-        <FormGroup>
-          <Label for="">Description</Label>
-          <MdTextarea
-            name="description"
-            rows={10}
-            onChange={(e) => this.onChange('mdTxt', e.target.value)}
-            value={this.state.mdTxt}
-            allowFilteredHtml={true}
-            min="50"
-            required
-          />
-        </FormGroup>
-        <Button color="warning" className="float-right">Save</Button>
-      </Form>
-    </div>
     // book lists
     const bookLists = []
     this.state.books.length > 0 && this.state.books.map(book => bookLists.push(<BookCard key={book.book_id} history={this.props.history} bookId={book.book_id} cardImage={book.image} cardTitle={`${book.title.substring(0, 18)}...`} cardText={`${book.description.substring(0, 100)}... `} cardFooter={`by [${book.author_name}][${book.genre_name}]`} />))
-    const slideItems = []
-    this.state.sliders.length > 0 && this.state.sliders.map(book => slideItems.push(<SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />))
-
+    // const slideItems = []
+    // this.state.bankBooks.length > 0 && this.state.sliders.map(book => slideItems.push(<SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />))
+    let categories = [];
     return (
       <Container fluid className={style.container}>
         <Row classID={style.wrapper}>
@@ -736,12 +602,9 @@ class Home extends Component {
             <Row>
               <div className={style.navigation}>
                 <Nav vertical className={style.nav}>
-                  <Link className="nav-link" to="/home">Explore</Link>
                   <MyModal id="historyModal" modalTitle="Histories" modalBody={historyModalBody} size="lg" />
                   <Link className="nav-link" to="#" onClick={() => { $('#historyModal').click() }}>History</Link>
-                  <MyModal id="addBookModal" modalTitle="Add Data" modalBody={addModalBody} size="lg" />
-                  {this.state.user.role < 3 && <Link className="nav-link" to="#" onClick={() => { $('#addBookModal').click() }}>Add Book*</Link>}
-                  {this.state.user.role < 3 && <Link className="nav-link" to="/dashboard">Dashboard*</Link>}
+                  <Link className="nav-link" to="/dashboard">Dashboard</Link>
                   <Link className="nav-link" to="/logout">Log Out</Link>
                 </Nav>
               </div>
@@ -773,11 +636,16 @@ class Home extends Component {
                         <DropdownMenu right>
                           <DropdownItem key={0} onClick={() => { this.getBooks() }}>Show All</DropdownItem>
                           <DropdownItem divider />
-                          {this.state.genres.map(genre => {
-                            return (
-                              <DropdownItem key={genre.genre_id} onClick={() => { this.getBookByCategory(genre.name) }}>{genre.name}</DropdownItem>
-                            )
-                          })}
+                          {
+                            this.state.bankBooks.map(book => {
+                              if (!categories.find(category => category === book.genre_name)) {
+                                categories.push(book.genre_name)
+                                return (
+                                  <DropdownItem key={book.genre_id} onClick={() => { this.getBookByCategory(book.genre_name) }}>{book.genre_name}</DropdownItem>
+                                )
+                              }
+                            })
+                          }
                         </DropdownMenu>
                       </UncontrolledDropdown>
                       {/* All Times */}
@@ -788,7 +656,7 @@ class Home extends Component {
                         <DropdownMenu right>
                           <DropdownItem key={0} onClick={() => { this.getBooks() }}>Show All</DropdownItem>
                           <DropdownItem divider />
-                          {this.state.times.map((time, index) => <DropdownItem key={index} onClick={() => { this.getBookByDate(time) }}>{time}</DropdownItem>)}
+                          {this.generateBookDate(this.state.bankBooks).map((time, index) => <DropdownItem key={index} onClick={() => { this.getBookByDate(time) }}>{time}</DropdownItem>)}
                         </DropdownMenu>
                       </UncontrolledDropdown>
                       {/* Sort */}
@@ -849,7 +717,7 @@ class Home extends Component {
               <Col className={style.slider}>
                 <div>
                   <Slider {...settings}>
-                    {slideItems}
+                    {this.state.bankBooks.map(book => <SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />)}
                   </Slider>
                 </div>
               </Col>

@@ -15,6 +15,7 @@ import books from "./books/reducer";
 import genres from "./genres/reducer";
 import histories from "./histories/reducer";
 import authors from "./authors/reducer";
+import users from "./users/reducer";
 
 // Combine The Reducers
 const reducer = combineReducers({
@@ -22,7 +23,8 @@ const reducer = combineReducers({
   books,
   genres,
   histories,
-  authors
+  authors,
+  users
 })
 
 /**
@@ -31,7 +33,13 @@ const reducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ["auth"]
+  whitelist: [
+    "auth",
+    "books",
+    "genres",
+    "authors",
+    "users",
+  ]
 }
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -53,6 +61,7 @@ export * from './books/actions';
 export * from './genres/actions';
 export * from './histories/actions';
 export * from './authors/actions';
+export * from './users/actions';
 
 /**
  * selector

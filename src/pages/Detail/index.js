@@ -1,34 +1,19 @@
 // library
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 
 // third party component
 import {
-	Container, Col, Row,
-
-	Form,
-	FormGroup,
-	Label,
-	Input,
-	Button,
-
-	// Form, 
-	Nav,
+	Container, Col, Row, Button,
 	Jumbotron
 } from 'reactstrap';
-import { Textarea as MdTextarea } from 'reactstrap-md-textarea';
-import $ from 'jquery';
 import Swal from 'sweetalert2';
-
-// custom component
-import { MyModal } from 'components';
 
 // custom config
 import { apiUri } from 'configs';
 import { decodeJwtToken, convertDate } from 'utils';
-import { getBooks, getAuthors, getCategories, patchBook, deleteBook } from 'modules';
+import { getBooks, getAuthors, getCategories, patchBook } from 'modules';
 
 // style
 import style from './detail.module.css';
@@ -68,9 +53,8 @@ class Detail extends Component {
 		this.setState({ ...this.state, [stateName]: value })
 	}
 
-
 	checkAuth = () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.state.auth.token;
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data.tokenLogin;
 		if (!token) {
 			this.props.history.push('/login');
 		} else if (token !== "undefined") {
@@ -136,82 +120,6 @@ class Detail extends Component {
 		}
 	}
 
-	updateBook = async (event) => {
-		event.preventDefault();
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const formData = new FormData(event.target);
-		const book_id = this.state.book.book_id;
-		if (formData.get('title') === this.state.book.title) {
-			formData.delete('title');
-		}
-		this.props.patchBook(token, formData, book_id)
-			.then((res) => {
-				if (res.value.status === 200) {
-					this.getDetailBooks();
-					Swal.fire(
-						'Update Book Success!',
-						'book updated successfully.',
-						'success'
-					).then(() => {
-						$(document).find('#editBookModal').click()
-					})
-				}
-			}).catch((error) => {
-				console.log(error.response.data);
-				error.response.data.message
-					? Swal.fire(
-						'Update Book Failed!',
-						`${error.response.data.message}`,
-						'error'
-					)
-					: Swal.fire(
-						'Update Book Failed!',
-						'Please try again',
-						'error'
-					)
-			})
-	}
-	deleteBook = async () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const book_id = this.state.book.book_id;
-		Swal.fire({
-			title: 'Are you sure?',
-			text: "You won't be able to revert this!",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, delete it!'
-		}).then(async (result) => {
-			if (result.value) {
-				this.props.deleteBook(token, book_id)
-					.then((res) => {
-						if (res.value.status === 200) {
-							Swal.fire(
-								'Delete Book Success!',
-								'book deleted successfully.',
-								'success'
-							).then(() => {
-								this.props.history.push('/home');
-							})
-						}
-					}).catch((error) => {
-						// console.log(error.response.data);
-						error.response.data.message
-							? Swal.fire(
-								'Delete Book Failed!',
-								`${error.response.data.message}`,
-								'error'
-							)
-							: Swal.fire(
-								'Delete Book Failed!',
-								'Please try again',
-								'error'
-							)
-					})
-			}
-		})
-	}
 	checkBorrowedBook = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 		const userData = decodeJwtToken(token);
@@ -305,64 +213,6 @@ class Detail extends Component {
 	}
 
 	render() {
-		const modalBody = <div>
-			<Form onSubmit={this.updateBook} id="formEdit">
-				<FormGroup>
-					<Label for="">Title</Label>
-					<Input type="text" name="title" id="title" placeholder="title here" defaultValue={this.state.book.title} required />
-				</FormGroup>
-				<FormGroup>
-					<Label for="l">Image</Label>
-					<Input type="file" name="image" id="" />
-				</FormGroup>
-				<FormGroup>
-					<Label for="">Author</Label>
-					<Input type="select" name="author_id" id="author_id" defaultValue={this.state.book.author_id} required>
-						{this.state.authors.map(author => {
-							return (
-								<option key={author.author_id} value={author.author_id}>{author.name}</option>
-							)
-						})}
-					</Input>
-				</FormGroup>
-				<FormGroup>
-					<Label for="">Genre</Label>
-					<Input type="select" name="genre_id" id="genre_id" defaultValue={this.state.book.genre_id} required>
-						{this.state.genres.map(genre => {
-							return (
-								<option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
-							)
-						})}
-					</Input>
-				</FormGroup>
-				<FormGroup>
-					<Label for="">Status</Label>
-					<Input type="select" name="status" id="status" defaultValue={this.state.book.status} required>
-						<option value="0">Available</option>
-						<option value="1">Not Available</option>
-					</Input>
-				</FormGroup>
-				<FormGroup>
-					<Label for="">Quantity</Label>
-					<Input type="number" name="quantity" id="quantity" placeholder="quantity" min="1" pattern="[0-9]" defaultValue={this.state.book.quantity} required />
-				</FormGroup>
-				<FormGroup>
-					<Label for="">Description</Label>
-					<MdTextarea
-						name="description"
-						id="description"
-						rows={10}
-						onChange={(e) => this.onChange('mdTxt', e.target.value)}
-						value={this.state.mdTxt}
-						allowFilteredHtml={true}
-						min="50"
-						required
-					/>
-				</FormGroup>
-				<Button color="warning" className="float-right">Save</Button>
-			</Form>
-		</div>
-
 		return (
 			<Container fluid className={style.container}>
 				{/* navbar tools */}
@@ -370,14 +220,6 @@ class Detail extends Component {
 					{/* back button */}
 					<div className={style.backButton} onClick={() => { this.props.history.push('/home') }}>
 						<FontAwesomeIcon icon={faArrowLeft} className={style.backButtonIcon} />
-					</div>
-					{/* admin menu */}
-					<div className={style.adminMenu}>
-						<MyModal id="editBookModal" modalTitle="Edit Data" modalBody={modalBody} size="lg" />
-						<Nav>
-							<Link to="#" onClick={() => { $('#editBookModal').click(); }} style={{ display: this.state.user.role > 2 && 'none' }}>Edit</Link>
-							<Link to="#" onClick={() => { this.deleteBook() }} style={{ display: this.state.user.role > 1 && 'none' }}>Delete</Link>
-						</Nav>
 					</div>
 				</div>
 				{/* Jumbotron */}
@@ -440,7 +282,6 @@ const mapDispathToProps = {
 	getCategories,
 	getAuthors,
 	patchBook,
-	deleteBook
 }
 
 export default connect(mapStateToProps, mapDispathToProps)(Detail)

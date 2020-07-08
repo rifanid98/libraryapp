@@ -2,38 +2,38 @@ import actionType from './actionType';
 import Axios from 'axios';
 import { apiUri } from 'configs';
 
-export const getAuthors = (token, params = "") => {
+export const getUsers = (token, params = "") => {
   const getParams = params ? `/${params}` : '';
   return {
-    type: actionType.GET_AUTHORS,
+    type: actionType.GET_USERS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.authors.getAllAuthors}${getParams}`,
+      url: `${apiUri.users}${getParams}`,
       headers: {
         'authorization': token
       }
     })
   }
 }
-export const getDetailAuthors = (token, id) => {
+export const getDetailUser = (token, id) => {
   const getId = id ? `/${id}` : '';
   return {
-    type: actionType.GET_AUTHORS,
+    type: actionType.GET_USERS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.authors.getAllAuthors}/${getId}`,
+      url: `${apiUri.users}/${getId}`,
       headers: {
         'authorization': token
       }
     })
   }
 }
-export const addAuthor = (token, data) => {
+export const addUser = (token, data) => {
   return {
-    type: actionType.ADD_AUTHOR,
+    type: actionType.ADD_USER,
     payload: Axios({
       method: 'POST',
-      url: apiUri.authors.getAllAuthors,
+      url: apiUri.users,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -42,13 +42,13 @@ export const addAuthor = (token, data) => {
     })
   }
 }
-export const patchAuthor = (token, data, id) => {
+export const patchUser = (token, data, id) => {
   const getId = id ? `/${id}` : '';
   return {
-    type: actionType.PATCH_AUTHOR,
+    type: actionType.PATCH_USER,
     payload: Axios({
       method: 'PATCH',
-      url: `${apiUri.authors.getAllAuthors}${getId}`,
+      url: `${apiUri.users}${getId}`,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -57,13 +57,13 @@ export const patchAuthor = (token, data, id) => {
     })
   }
 }
-export const deleteAuthor = (token, id) => {
+export const deleteUser = (token, id) => {
   const getId = id ? `/${id}` : '';
   return {
-    type: actionType.DELETE_AUTHOR,
+    type: actionType.DELETE_USER,
     payload: Axios({
       method: 'DELETE',
-      url: `${apiUri.authors.getAllAuthors}${getId}`,
+      url: `${apiUri.users}${getId}`,
       headers: {
         'authorization': token
       }

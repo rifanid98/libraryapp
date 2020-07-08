@@ -4,26 +4,26 @@ const initialState = {
   isLoading: false,
   isError: false,
   errorMsg: '',
-  data: {}
+  data: []
 }
 
 
-const genres = (state = initialState, action) => {
+const users = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.GET_GENRES_PENDING:
+    case actionType.GET_USERS_PENDING:
       return {
         ...state,
         isLoading: true,
         isError: false
       }
-    case actionType.GET_GENRES_REJECTED:
+    case actionType.GET_USERS_REJECTED:
       return {
         ...state,
         isLoading: false,
         isError: true,
         errorMsg: 'Data Rejected'
       }
-    case actionType.GET_GENRES_FULFILLED:
+    case actionType.GET_USERS_FULFILLED:
       return {
         ...state,
         isLoading: false,
@@ -32,20 +32,22 @@ const genres = (state = initialState, action) => {
         data: action.payload.data.data
       }
 
-    case actionType.ADD_GENRE_PENDING:
+    case actionType.ADD_USER_PENDING:
       return {
         ...state,
         isLoading: true,
         isError: false
       }
-    case actionType.ADD_GENRE_REJECTED:
+    case actionType.ADD_USER_REJECTED:
       return {
         ...state,
         isLoading: false,
         isError: true,
         errorMsg: 'Data Rejected'
       }
-    case actionType.ADD_GENRE_FULFILLED:
+    case actionType.ADD_USER_FULFILLED:
+      console.log(action.payload, 'ini data payload')
+      console.log(state);
       return {
         ...state,
         isLoading: false,
@@ -53,20 +55,20 @@ const genres = (state = initialState, action) => {
         errorMsg: '',
       }
 
-    case actionType.PATCH_GENRE_PENDING:
+    case actionType.PATCH_USER_PENDING:
       return {
         ...state,
         isLoading: true,
         isError: false
       }
-    case actionType.PATCH_GENRE_REJECTED:
+    case actionType.PATCH_USER_REJECTED:
       return {
         ...state,
         isLoading: false,
         isError: true,
         errorMsg: 'Data Rejected'
       }
-    case actionType.PATCH_GENRE_FULFILLED:
+    case actionType.PATCH_USER_FULFILLED:
       return {
         ...state,
         isLoading: false,
@@ -74,20 +76,20 @@ const genres = (state = initialState, action) => {
         errorMsg: '',
       }
 
-    case actionType.DELETE_GENRE_PENDING:
+    case actionType.DELETE_USER_PENDING:
       return {
         ...state,
         isLoading: true,
         isError: false
       }
-    case actionType.DELETE_GENRE_REJECTED:
+    case actionType.DELETE_USER_REJECTED:
       return {
         ...state,
         isLoading: false,
         isError: true,
         errorMsg: 'Data Rejected'
       }
-    case actionType.DELETE_GENRE_FULFILLED:
+    case actionType.DELETE_USER_FULFILLED:
       return {
         ...state,
         isLoading: false,
@@ -100,4 +102,4 @@ const genres = (state = initialState, action) => {
   }
 }
 
-export default genres;
+export default users;

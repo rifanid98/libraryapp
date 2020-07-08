@@ -1,5 +1,6 @@
 import moment from "moment";
 import { useEffect, useRef } from "react";
+import jwt_decode from 'jwt-decode';
 
 export const getPath = (path = "") => (path ? `/${path}` : "");
 export const getCustomUrl = (url = "") => url;
@@ -39,11 +40,10 @@ export const convertDate = date => {
 };
 
 export const decodeJwtToken = jwtToken => {
-  if (jwtToken !== undefined) {
-    const parts = jwtToken.split('.').map(part => Buffer.from(part.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString());
-    const payload = JSON.parse(parts[1]);
-    return payload;
-  } else {
+  try {
+    var decoded = jwt_decode(jwtToken);
+    return decoded;
+  } catch (error) {
     return jwtToken;
   }
 }

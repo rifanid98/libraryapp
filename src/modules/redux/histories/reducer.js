@@ -16,7 +16,6 @@ const histories = (state = initialState, action) => {
         isLoading: true,
         isError: false
       }
-
     case actionType.HISTORIES_REJECTED:
       return {
         ...state,
@@ -24,13 +23,12 @@ const histories = (state = initialState, action) => {
         isError: true,
         errorMsg: 'Data Rejected'
       }
-
     case actionType.HISTORIES_FULFILLED:
-
       return {
         ...state,
         isLoading: false,
         isError: false,
+        errorMsg: '',
         data: action.payload.data.data
       }
 

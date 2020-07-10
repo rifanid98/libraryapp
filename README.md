@@ -36,7 +36,7 @@ To install this library application, follow these steps:
 
 ## Using Libraryapp
 
-To use Librayapp, follow these steps:
+To use Libraryapp, follow these steps:
 
 -   Go to libraryapp directory
 -   Open terminal or command prompt on Windows
@@ -52,11 +52,11 @@ To use Librayapp, follow these steps:
 <img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png" width="500" alt="Login Page">
 <img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png" width="500" alt="Login Page">
 
-## Contributing to Librayapp
+## Contributing to Libraryapp
 
 <!--- If your README is long or you have some specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
 
-To contribute to Librayapp, follow these steps:
+To contribute to Libraryapp, follow these steps:
 
 1. Fork this repository.
 2. Create a branch: `git checkout -b <branch_name>`.

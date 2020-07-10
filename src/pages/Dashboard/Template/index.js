@@ -36,15 +36,10 @@ import { useEventListener } from 'utils';
 import style from './dashboard.module.css';
 
 const Template = (props) => {
+  const [auth] = useState(props.auth)
   const [isOpen, setIsOpen] = useState(false);
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [contentWidth, setContentWidth] = useState(0);
-  const [user, setUSer] = useState({
-    id: 0,
-    name: 'name',
-    role: 0,
-    image: ''
-  });
 
   const toggle = () => setIsOpen(!isOpen);
   const toggleSidebar = () => {
@@ -58,8 +53,9 @@ const Template = (props) => {
   }
 
   useEffect(() => {
+    const width = $('#content').width()
+    $('#navbar').width(width);
     document.title = `Dashboard | ${props.title}`;
-    setUSer(props.state);
   }, [props])
 
 
@@ -71,6 +67,7 @@ const Template = (props) => {
   const handler = useCallback(() => {
     updateDimensions();
   }, [contentWidth])
+
   useEventListener('resize', handler);
 
   const Components = props.components;
@@ -92,14 +89,14 @@ const Template = (props) => {
               {/* Profile Avatar */}
               <Row>
                 <Col className={style.profileAvatar}>
-                  <img src={user.image} alt="" />
+                  <img src={auth.image} alt="" />
                   {/* <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" alt="" /> */}
                 </Col>
               </Row>
               {/* Profile Name */}
               <Row>
                 <Col className={style.profileName}>
-                  {user.name}
+                  {auth.full_name}
                 </Col>
               </Row>
             </div>
@@ -132,7 +129,18 @@ const Template = (props) => {
                 <NavbarToggler onClick={() => toggle()} style={{ border: 'none' }} />
                 <Collapse isOpen={isOpen} navbar>
                   {/* navbar menu */}
-                  <Nav className="mr-auto" navbar>
+                  <Nav className="mr-auto" navbar style={{ display: `${auth.role > 2 ? 'block' : 'none'}` }}>
+                    {
+                      [
+                        { name: 'Profile', to: 'dashboard/profile' }
+                      ].map((menu, index) => {
+                        return (
+                          <Link key={index} className="nav-link" to={`/${menu.to}`} onClick={() => document.title = `Dashboard | ${menu.name}`}>{menu.name}</Link>)
+                      })
+                    }
+
+                  </Nav>
+                  <Nav className="mr-auto" navbar style={{ display: `${auth.role > 2 ? 'none' : 'display'}` }}>
                     {
                       [
                         { name: 'Books', to: 'dashboard/books' },

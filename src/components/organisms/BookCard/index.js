@@ -24,7 +24,7 @@ const BookCard = (props) => {
 	} = props;
 
 	return (
-		<Col md="4" sm="6" xs="12" onClick={() => { history.push(`/detail/${bookId}`) }}>
+		<Col md="3" sm="4" xs="12" onClick={() => { history.push(`/detail/${bookId}`) }}>
 			<Card className={style.card} style={{ backgroundImage: `url(${cardImage})` }}>
 				<div className={style.imgWrapper}></div>
 				<CardBody className={style.cardBody}>

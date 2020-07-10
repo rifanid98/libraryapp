@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { decodeJwtToken } from 'utils';
 import { Template as DashboardTemplate } from 'pages';
 import { connect } from 'react-redux';
-import { Books as BooksContent, Genres, Authors, Users } from 'components';
+import { Books as BooksContent, Genres, Authors, Users, Profile } from 'components';
 import { useParams } from 'react-router-dom';
+import { getUsers } from 'modules';
 
 const Index = (props) => {
-  const [auth] = useState(props.auth.data)
-  const [profile, setProfile] = useState({});
+  const [auth, setAuth] = useState(props.auth.data)
   const params = useParams();
   const pages = {
     books: 'books',
@@ -17,12 +17,21 @@ const Index = (props) => {
     profile: 'profile'
   }
   useEffect(() => {
+    console.log(props.auth.data, 'ini isi dari props auth')
     checkAuth();
     checkRole();
+    props.getUsers(auth.tokenLogin, auth.user_id);
   }, [])
 
+  useEffect(() => {
+    setAuth({
+      ...auth,
+      image: props.users.data[0].image
+    })
+  }, [props])
+
   const checkAuth = () => {
-    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || props.auth.token;
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token') || props.auth.data.token.tokenLogin;
     if (!token) {
       props.history.push('/login');
     } else if (token !== "undefined") {
@@ -30,12 +39,6 @@ const Index = (props) => {
       if (userData.user_id === undefined || null) {
         props.history.push('/login');
       }
-      setProfile({
-        id: userData.user_id,
-        name: userData.name,
-        role: userData.role,
-        image: userData.image
-      })
     }
   }
   const checkRole = () => {
@@ -44,27 +47,38 @@ const Index = (props) => {
       props.history.push('/dashboard/profile')
     }
   }
+  const setNewImageProfile = (newImageName) => {
+    setAuth({
+      ...auth,
+      image: newImageName
+    })
+  }
   return (
     <div>
       {params.page === 'books' && <DashboardTemplate
         title="Books"
-        state={profile}
         components={<BooksContent auth={auth} />}
+        auth={auth}
       />}
       {params.page === 'genres' && <DashboardTemplate
         title="Genres"
-        state={profile}
         components={<Genres auth={auth} />}
+        auth={auth}
       />}
       {params.page === 'authors' && <DashboardTemplate
         title="Authors"
-        state={profile}
         components={<Authors auth={auth} />}
+        auth={auth}
       />}
       {params.page === 'users' && <DashboardTemplate
         title="Users"
-        state={profile}
         components={<Users auth={auth} />}
+        auth={auth}
+      />}
+      {params.page === 'profile' && <DashboardTemplate
+        title="Profile"
+        components={<Profile auth={auth} setNewImageProfile={(newImageName) => setNewImageProfile(newImageName)} />}
+        auth={auth}
       />}
       {params.page in pages === false && <p>Not Found</p>}
     </div>
@@ -73,9 +87,14 @@ const Index = (props) => {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  users: state.users,
   books: state.books,
   authors: state.authors,
   genres: state.genres
 })
 
-export default connect(mapStateToProps)(Index);
+const mapDispatchToProps = {
+  getUsers
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

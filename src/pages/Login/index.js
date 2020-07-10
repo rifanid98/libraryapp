@@ -64,14 +64,18 @@ class Login extends Component {
         }
       })
       .catch(error => {
+        let errorMessage = 'Please try again';
         if (error.response !== undefined) {
           if (error.response.data) {
-            console.log(error.response.data);
+            if (error.response.data.message) {
+              errorMessage = error.response.data.message;
+              // console.log(error.response.data.message);
+            }
           }
         }
         Swal.fire(
           'Login Failed!',
-          'Pleas try again',
+          errorMessage,
           'error'
         );
       });
@@ -120,11 +124,11 @@ class Login extends Component {
                   <Form className={style.form} onSubmit={this.handleSubmit}>
                     <FormGroup>
                       <Label className={style.label} for="email">Email Address</Label>
-                      <Input type="text" name="username" id="username" placeholder="username or email" />
+                      <Input type="text" name="username" id="username" placeholder="username or email" required />
                     </FormGroup>
                     <FormGroup>
                       <Label className={style.label} for="password">Password</Label>
-                      <Input type="password" name="password" id="password" placeholder="password" />
+                      <Input type="password" name="password" id="password" placeholder="password" required />
                     </FormGroup>
                     <FormGroup check>
                       <Label className={style.label} check>

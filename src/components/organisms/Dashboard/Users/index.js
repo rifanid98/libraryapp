@@ -135,7 +135,6 @@ const Users = (props) => {
     setData({
       users: props.users.data
     })
-    console.log('updated')
   }, [props])
 
   // trigger didupdate

@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 // custom config
 import { apiUri } from 'configs';
 import { decodeJwtToken, convertDate } from 'utils';
-import { getBooks, getAuthors, getCategories, patchBook } from 'modules';
+import { getBooks, getAuthors, getCategories, patchBook, borrowBook, returnBook } from 'modules';
 
 // style
 import style from './detail.module.css';
@@ -48,11 +48,11 @@ class Detail extends Component {
 		this.getCategories();
 		this.checkBorrowedBook();
 	}
+	// functions are not connected to database
 	// MdTextarea
 	onChange = (stateName, value) => {
 		this.setState({ ...this.state, [stateName]: value })
 	}
-
 	checkAuth = () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data.tokenLogin;
 		if (!token) {
@@ -72,13 +72,14 @@ class Detail extends Component {
 			})
 		}
 	}
+
+	// functions are connected to database
 	getDetailBooks = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 		const book_id = this.state.book.book_id;
 		this.props.getBooks(token, book_id)
 			.then((res) => {
 				const book = this.props.books.data;
-				console.log(book, 'get detail book')
 				this.setState({
 					...this.state,
 					book: book[0],
@@ -119,7 +120,6 @@ class Detail extends Component {
 				})
 		}
 	}
-
 	checkBorrowedBook = async () => {
 		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
 		const userData = decodeJwtToken(token);
@@ -127,89 +127,80 @@ class Detail extends Component {
 		const userId = userData.user_id;
 		await Axios({
 			method: 'GET',
+			// url: `${apiUri.histories.getPendingHistories}/all/${userId}`,
 			url: `${apiUri.histories.getPendingHistories}/${bookId}/${userId}`,
 			headers: {
 				authorization: token
 			}
 		}).then((res) => {
-			// console.log(res);
+			console.log(res);
 			const pendingHistories = res.data.data;
 			this.setState({
 				...this.state,
 				pendingHistories: pendingHistories
 			})
 		}).catch((error) => {
-			// console.log(error)
+			console.log(error)
 			console.log(`get pendingHistories failed`)
 		})
 	}
 	borrowBook = async () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const param = this.state.book.book_id;
-		await Axios({
-			method: 'PATCH',
-			url: `${apiUri.books.borrowBook}/${param}/borrow`,
-			headers: {
-				'authorization': token
-			}
-		}).then((res) => {
-			if (res.status === 200) {
-				this.getDetailBooks();
-				this.checkBorrowedBook();
-				Swal.fire(
-					'Borrow Book Success!',
-					'book borrowed successfully.',
-					'success'
-				)
-			}
-		}).catch((error) => {
-			// console.log(error.response.data);
-			error.response.data.message
-				? Swal.fire(
-					'Borrow Book Failed!',
-					`${error.response.data.message}`,
-					'error'
-				)
-				: Swal.fire(
-					'Borrow Book Failed!',
-					'Please try again',
-					'error'
-				)
-		})
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data;
+		const id = this.state.book.book_id;
+		this.props.borrowBook(token, id)
+			.then((res) => {
+				if (res.value.status === 200) {
+					this.getDetailBooks();
+					this.checkBorrowedBook();
+					Swal.fire(
+						'Borrow Book Success!',
+						'book borrowed successfully.',
+						'success'
+					)
+				}
+			}).catch((error) => {
+				// console.log(error.response.data);
+				error.response.data.message
+					? Swal.fire(
+						'Borrow Book Failed!',
+						`${error.response.data.message}`,
+						'error'
+					)
+					: Swal.fire(
+						'Borrow Book Failed!',
+						'Please try again',
+						'error'
+					)
+			})
 	}
 	returnBook = async () => {
-		const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-		const param = this.state.book.book_id;
-		await Axios({
-			method: 'PATCH',
-			url: `${apiUri.books.returnBook}/${param}/return`,
-			headers: {
-				'authorization': token
-			}
-		}).then((res) => {
-			if (res.status === 200) {
-				this.getDetailBooks();
-				this.checkBorrowedBook();
-				Swal.fire(
-					'Return Book Success!',
-					'book returned successfully.',
-					'success'
-				)
-			}
-		}).catch((error) => {
-			// console.log(error.response.data);
-			error.response.data.message
-				? Swal.fire(
-					'Return Book Failed!',
-					`${error.response.data.message}`,
-					'error'
-				)
-				: Swal.fire(
-					'Return Book Failed!',
-					'Please try again',
-					'error'
-				)
-		})
+		const token = sessionStorage.getItem('token') || localStorage.getItem('token') || this.props.auth.data;
+		const id = this.state.book.book_id;
+		this.props.returnBook(token, id)
+			.then((res) => {
+				if (res.value.status === 200) {
+					this.getDetailBooks();
+					this.checkBorrowedBook();
+					Swal.fire(
+						'Return Book Success!',
+						'book returned successfully.',
+						'success'
+					)
+				}
+			}).catch((error) => {
+				// console.log(error.response.data);
+				error.response.data.message
+					? Swal.fire(
+						'Return Book Failed!',
+						`${error.response.data.message}`,
+						'error'
+					)
+					: Swal.fire(
+						'Return Book Failed!',
+						'Please try again',
+						'error'
+					)
+			})
 	}
 
 	render() {
@@ -282,6 +273,8 @@ const mapDispathToProps = {
 	getCategories,
 	getAuthors,
 	patchBook,
+	borrowBook,
+	returnBook
 }
 
 export default connect(mapStateToProps, mapDispathToProps)(Detail)

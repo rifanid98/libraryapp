@@ -8,7 +8,7 @@ export const getAuthors = (token, params = "") => {
     type: actionType.GET_AUTHORS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.authors.getAllAuthors}${getParams}`,
+      url: `${apiUri.authors}${getParams}`,
       headers: {
         'authorization': token
       }
@@ -21,7 +21,7 @@ export const getDetailAuthors = (token, id) => {
     type: actionType.GET_AUTHORS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.authors.getAllAuthors}/${getId}`,
+      url: `${apiUri.authors}${getId}`,
       headers: {
         'authorization': token
       }
@@ -33,7 +33,7 @@ export const addAuthor = (token, data) => {
     type: actionType.ADD_AUTHOR,
     payload: Axios({
       method: 'POST',
-      url: apiUri.authors.getAllAuthors,
+      url: apiUri.authors,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -48,7 +48,7 @@ export const patchAuthor = (token, data, id) => {
     type: actionType.PATCH_AUTHOR,
     payload: Axios({
       method: 'PATCH',
-      url: `${apiUri.authors.getAllAuthors}${getId}`,
+      url: `${apiUri.authors}${getId}`,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -63,7 +63,7 @@ export const deleteAuthor = (token, id) => {
     type: actionType.DELETE_AUTHOR,
     payload: Axios({
       method: 'DELETE',
-      url: `${apiUri.authors.getAllAuthors}${getId}`,
+      url: `${apiUri.authors}${getId}`,
       headers: {
         'authorization': token
       }

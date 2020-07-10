@@ -21,7 +21,7 @@ export const getDetailUser = (token, id) => {
     type: actionType.GET_USERS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.users}/${getId}`,
+      url: `${apiUri.users}${getId}`,
       headers: {
         'authorization': token
       }

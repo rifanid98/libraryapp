@@ -8,7 +8,7 @@ export const getBooks = (token, params = "") => {
     type: actionType.GET_BOOKS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.books.getAllBooks}${getParams}`,
+      url: `${apiUri.books}${getParams}`,
       headers: {
         'authorization': token
       }
@@ -21,7 +21,7 @@ export const getDetailBook = (token, id) => {
     type: actionType.GET_BOOKS,
     payload: Axios({
       method: 'GET',
-      url: `${apiUri.books.getAllBooks}/${getId}`,
+      url: `${apiUri.books}${getId}`,
       headers: {
         'authorization': token
       }
@@ -33,7 +33,7 @@ export const addBook = (token, data) => {
     type: actionType.ADD_BOOK,
     payload: Axios({
       method: 'POST',
-      url: apiUri.books.postBook,
+      url: apiUri.books,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -48,7 +48,7 @@ export const patchBook = (token, data, id) => {
     type: actionType.PATCH_BOOK,
     payload: Axios({
       method: 'PATCH',
-      url: `${apiUri.books.getAllBooks}${getId}`,
+      url: `${apiUri.books}${getId}`,
       data: data,
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -63,7 +63,33 @@ export const deleteBook = (token, id) => {
     type: actionType.DELETE_BOOK,
     payload: Axios({
       method: 'DELETE',
-      url: `${apiUri.books.getAllBooks}${getId}`,
+      url: `${apiUri.books}${getId}`,
+      headers: {
+        'authorization': token
+      }
+    })
+  }
+}
+export const borrowBook = (token, id) => {
+  const getId = id ? `/${id}` : '';
+  return {
+    type: actionType.PATCH_BOOK,
+    payload: Axios({
+      method: 'PATCH',
+      url: `${apiUri.books}${getId}/borrow`,
+      headers: {
+        'authorization': token
+      }
+    })
+  }
+}
+export const returnBook = (token, id) => {
+  const getId = id ? `/${id}` : '';
+  return {
+    type: actionType.PATCH_BOOK,
+    payload: Axios({
+      method: 'PATCH',
+      url: `${apiUri.books}${getId}/return`,
       headers: {
         'authorization': token
       }

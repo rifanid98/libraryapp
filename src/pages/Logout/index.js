@@ -5,9 +5,6 @@ import { connect } from 'react-redux';
 class Logout extends Component {
   constructor(props) {
     super(props)
-    this.setState({
-      empty: ''
-    })
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
     localStorage.clear();

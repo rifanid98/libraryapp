@@ -1,75 +1,39 @@
-// library
+/**
+ * Library
+ */
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import { connect } from 'react-redux';
+import { getBooks, getCategories, getHistories, getAuthors, addBook, getPendingHistories } from 'modules';
 
-// third party component
-import {
-  Container,
-  Col,
-  Row,
-
-  Form,
-  Button,
-  // Textarea
-
-  // NavLink, NavItem, 
-
-  Nav,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-
-  // NavbarText,
-
-  Collapse,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-
-  Table
-} from 'reactstrap';
-
+/**
+ * third party component
+ */
+import { Container, Col, Row, Form, Button, Nav, Navbar, NavbarToggler, NavbarBrand, Collapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Table } from 'reactstrap';
 import Slider from "react-slick";
 import Swal from 'sweetalert2';
 
-// custom component
-import {
-  MyModal,
-  BookCard,
-  SliderItem,
-  SliderArrow
-} from 'components';
+/**
+ * custom component
+ */
+import { MyModal, BookCard, SliderItem, SliderArrow } from 'components';
 
-// assets
+
+/**
+ * custom config
+ */
+import { createUrlParamFromObj, decodeJwtToken, convertISODate } from 'utils';
+
+/**
+ * Assets
+ */
 import { bookIcon } from 'assets';
-
-// fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
-
-// slider style
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-// custom config
-import {
-  createUrlParamFromObj,
-  decodeJwtToken,
-  convertISODate
-} from 'utils';
-
-// custom style
 import style from './home.module.css';
-import { connect } from 'react-redux';
-import {
-  getBooks,
-  getCategories,
-  getHistories,
-  getAuthors,
-  addBook
-} from 'modules';
 
 class Home extends Component {
   constructor(props) {
@@ -92,6 +56,8 @@ class Home extends Component {
         image: ''
       },
 
+      pendingHistories: [],
+
       bankBooks: [],
       books: [],
       authors: [],
@@ -101,7 +67,7 @@ class Home extends Component {
 
       pagination: {
         page: 1,
-        limit: 3,
+        limit: 4,
         totalPage: []
       },
 
@@ -119,14 +85,11 @@ class Home extends Component {
     this.checkAuth();
 
     const keyword = this.getKeyword();
-    if (keyword) {
-      this.getBookByKeyword(keyword);
-    } else {
-      this.getBooks();
-    }
+    keyword ? this.getBookByKeyword(keyword) : this.getBooks();
     this.getBankBooks();
     this.getHistories();
     this.getHistoriesByUserId();
+    this.checkBorrowedBook();
     window.addEventListener('resize', this.updateDimensions);
 
     const contentWidth = $('#content').width();
@@ -137,10 +100,7 @@ class Home extends Component {
   }
 
   // MdTextarea
-  onChange = (stateName, value) => {
-    this.setState({ ...this.state, [stateName]: value })
-  }
-
+  // functions are not connected to database
   toggle = () => {
     // navbar toggle
     this.state.isOpen === true
@@ -167,6 +127,22 @@ class Home extends Component {
       $('#navbar').width(this.state.content.width);
       console.log(this.state.content.width)
     });
+  }
+  onChange = (stateName, value) => {
+    this.setState({ ...this.state, [stateName]: value })
+  }
+  setLimitData = (totalData) => {
+    totalData > 0
+      && this.setState({
+        ...this.state,
+        pagination: {
+          page: this.state.pagination.page,
+          limit: parseInt(totalData),
+          totalPage: this.state.pagination.totalPage
+        }
+      }, () => {
+        this.getBooks();
+      })
   }
   getKeyword = () => {
     let search = window.location.search;
@@ -206,6 +182,8 @@ class Home extends Component {
       })
     }
   }
+
+  // functions are connected to database
   getBooks = async () => {
     const pagination = {
       page: this.state.pagination.page,
@@ -228,6 +206,7 @@ class Home extends Component {
             ...this.state,
             books: books,
             sorts: books,
+            searching: false,
             pagination: {
               page: this.state.pagination.page,
               limit: this.state.pagination.limit,
@@ -266,7 +245,8 @@ class Home extends Component {
           if (books.length > 0) {
             this.setState({
               ...this.state,
-              books: books
+              searching: true,
+              books: books,
             })
           } else {
             Swal.fire(
@@ -293,7 +273,8 @@ class Home extends Component {
           if (books.length > 0) {
             this.setState({
               ...this.state,
-              books: books
+              books: books,
+              searching: true
             })
           } else {
             Swal.fire(
@@ -320,7 +301,8 @@ class Home extends Component {
           if (books.length > 0) {
             this.setState({
               ...this.state,
-              books: books
+              books: books,
+              searching: true
             })
           } else {
             Swal.fire(
@@ -403,7 +385,8 @@ class Home extends Component {
                 page: this.state.pagination.page,
                 limit: this.state.pagination.limit,
                 totalPage: pages
-              }
+              },
+              searching: true
             })
           }).catch((error) => {
             console.log(`get books by keyword failed`)
@@ -459,23 +442,11 @@ class Home extends Component {
         page: page,
         limit: this.state.pagination.limit,
         totalPage: this.state.pagination.totalPage
-      }
+      },
+      searching: true
     }, () => {
       this.getBooks();
     })
-  }
-  setLimitData = (totalData) => {
-    totalData > 0
-      && this.setState({
-        ...this.state,
-        pagination: {
-          page: this.state.pagination.page,
-          limit: parseInt(totalData),
-          totalPage: this.state.pagination.totalPage
-        }
-      }, () => {
-        this.getBooks();
-      })
   }
   searchBooks = event => {
     event.preventDefault();
@@ -487,7 +458,21 @@ class Home extends Component {
       this.getBooks();
     }
   }
-
+  checkBorrowedBook = async () => {
+    const token = this.props.auth.data.tokenLogin;
+    const userId = this.props.auth.data.user_id;
+    this.props.getPendingHistories(token, userId)
+      .then((res) => {
+        const pendingHistories = this.props.histories.data
+        this.setState({
+          ...this.state,
+          pendingHistories: pendingHistories
+        })
+      }).catch((error) => {
+        console.log(error)
+        console.log(`get pendingHistories failed`)
+      })
+  }
   render() {
     // slider settings
     const settings = {
@@ -556,9 +541,6 @@ class Home extends Component {
     </Table>;
     // modal body
     const historyModalBody = <div>
-      {/* <Button color="warning" onClick={() => { $('#histories').html(allHistories) }}>All Histories</Button> */}
-      {/* &nbsp; */}
-      {/* <Button color="warning" onClick={() => { $('#histories').html(myHistories) }}>My Histories</Button> */}
       <div id="histories">
         {myHistories}
       </div>
@@ -566,8 +548,6 @@ class Home extends Component {
     // book lists
     const bookLists = []
     this.state.books.length > 0 && this.state.books.map(book => bookLists.push(<BookCard key={book.book_id} history={this.props.history} bookId={book.book_id} cardImage={book.image} cardTitle={`${book.title.substring(0, 18)}...`} cardText={`${book.description.substring(0, 100)}... `} cardFooter={`by [${book.author_name}][${book.genre_name}]`} />))
-    // const slideItems = []
-    // this.state.bankBooks.length > 0 && this.state.sliders.map(book => slideItems.push(<SliderItem key={book.book_id} id={book.book_id} slideImage={book.image} />))
     let categories = [];
     return (
       <Container fluid className={style.container}>
@@ -593,7 +573,7 @@ class Home extends Component {
                 {/* Profile Name */}
                 <Row>
                   <Col className={style.profileName}>
-                    {this.state.user.name}
+                    {this.props.auth.data.full_name}
                   </Col>
                 </Row>
               </div>
@@ -689,11 +669,25 @@ class Home extends Component {
                           <option key="6" value="6">6</option>
                         </select>
                       </form>
+                      {/* My Books */}
+                      <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret>
+                          My Books
+												</DropdownToggle>
+                        <DropdownMenu right>
+                          {this.state.pendingHistories.length > 0
+                            && this.state.pendingHistories.map(history => {
+                              return (
+                                <DropdownItem key={history.history_id} onClick={() => { this.props.history.push(`/detail/${history.book_id}`) }}>{history.title}</DropdownItem>
+                              )
+                            })
+                          }
+                        </DropdownMenu>
+                      </UncontrolledDropdown>
                     </Nav>
                     {/* search input */}
                     <Form className="mx-2 my-auto d-inline w-100" onSubmit={(e) => this.searchBooks(e)}>
                       <div className="input-group">
-                        <div id={style.space}></div>
                         <span className="input-group-append">
                           <button className={style.searchButton} onClick={null}>
                             <FontAwesomeIcon icon={faSearch} className={style.searchIcon} />
@@ -701,7 +695,6 @@ class Home extends Component {
                         </span>
                         <input type="text" name="search" className="form-control" id={style.searchInput} placeholder="Search Book" />
                         {/* <input type="text" className="form-control" id={style.searchInput} placeholder="Search Book" onChange={(e) => { this.getBookByKeyword(e) }} /> */}
-                        <div id={style.space}></div>
                       </div>
                     </Form>
                   </Collapse>
@@ -733,7 +726,8 @@ class Home extends Component {
                     marginLeft: '15px',
                     textAlign: 'center',
                     padding: 'auto',
-                    // display: this.state.searching ? 'none' : 'block'
+                    // display: 'none',
+                    display: `${this.state.searching === true ? 'none' : 'block'}`
                   }}>
                     {/* Pagination */}
                     <Button color="warning" onClick={() => { this.getBooksByPage(this.state.pagination.page - 1) }} disabled={this.state.pagination.page === 1 ? true : false}>Prev</Button>
@@ -766,6 +760,7 @@ const mapDispatchToProps = {
   getBooks,
   getCategories,
   getHistories,
+  getPendingHistories,
   getAuthors,
   addBook
 }

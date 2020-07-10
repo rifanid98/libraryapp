@@ -34,10 +34,6 @@ To install this library application, follow these steps:
 -   Start MySQL server
 -   Import the database to your mysql machine. If you have installed xampp, you can open phpmyadmin page to import the database
 
-    ```
-
-    ```
-
 ## Using Libraryapp
 
 To use Librayapp, follow these steps:
@@ -48,6 +44,14 @@ To use Librayapp, follow these steps:
     ```
     npm start
     ```
+
+## Screenshots
+
+[Login Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png)
+<img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png" width="500" alt="Login Page">
+[Sign Up Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png)
+[Home Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png)
+[Admin Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png)
 
 ## Contributing to Librayapp
 

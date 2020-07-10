@@ -47,11 +47,10 @@ To use Librayapp, follow these steps:
 
 ## Screenshots
 
-[Login Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png)
 <img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png" width="500" alt="Login Page">
-[Sign Up Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png)
-[Home Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png)
-[Admin Page](https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png)
+<img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png" width="500" alt="Login Page">
+<img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png" width="500" alt="Login Page">
+<img src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png" width="500" alt="Login Page">
 
 ## Contributing to Librayapp
 

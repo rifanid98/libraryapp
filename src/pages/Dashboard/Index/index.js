@@ -17,18 +17,13 @@ const Index = (props) => {
     profile: 'profile'
   }
   useEffect(() => {
-    console.log(props.auth.data, 'ini isi dari props auth')
     checkAuth();
     checkRole();
     props.getUsers(auth.tokenLogin, auth.user_id);
   }, [])
 
   useEffect(() => {
-    setAuth({
-      ...auth,
-      image: props.users.data[0].image
-    })
-  }, [props])
+  }, [auth])
 
   const checkAuth = () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token') || props.auth.data.token.tokenLogin;
@@ -47,10 +42,11 @@ const Index = (props) => {
       props.history.push('/dashboard/profile')
     }
   }
-  const setNewImageProfile = (newImageName) => {
+  const setNewUserData = (newUserData) => {
     setAuth({
       ...auth,
-      image: newImageName
+      image: newUserData.image,
+      full_name: newUserData.full_name
     })
   }
   return (
@@ -77,7 +73,7 @@ const Index = (props) => {
       />}
       {params.page === 'profile' && <DashboardTemplate
         title="Profile"
-        components={<Profile auth={auth} setNewImageProfile={(newImageName) => setNewImageProfile(newImageName)} />}
+        components={<Profile auth={auth} setNewUserData={(newImageName) => setNewUserData(newImageName)} />}
         auth={auth}
       />}
       {params.page in pages === false && <p>Not Found</p>}

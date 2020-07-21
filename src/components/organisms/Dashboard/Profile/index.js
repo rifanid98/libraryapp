@@ -17,14 +17,21 @@ const Profile = (props) => {
   // props diupdate
   useEffect(() => {
     setUser(props.users.data[0]);
-    setImage(props.users.data[0].image);
-  }, [props])
+  }, [props.users])
 
   // image didupdate
-  // if setNewImageProfile put in props didupdate will casusing infinite loop
+  // if setNewImageProfile put in props didupdate will causing infinite loop
   useEffect(() => {
-    props.setNewImageProfile(image);
+    props.setNewUserData({
+      image: image,
+      full_name: user.full_name
+    });
+    // props.setNewImageProfile(image);
   }, [image])
+
+  useEffect(() => {
+    setImage(user.image);
+  }, [user])
 
   const getLastData = () => {
     props.getDetailUser(auth.tokenLogin, auth.user_id)
@@ -32,7 +39,6 @@ const Profile = (props) => {
 
   const updateUser = (event) => {
     event.preventDefault();
-    console.log(user, 'ini user')
     const token = auth.tokenLogin;
     const user_id = user.user_id;
     const formData = new FormData(event.target);

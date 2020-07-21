@@ -602,7 +602,7 @@ class Home extends Component {
                   </div>
                   {/* navbar brand top */}
                   <NavbarBrand href="/" id={style.navbarBrandTop}>
-                    <img src={bookIcon} alt="" />Library
+                    <img src={bookIcon} alt="" />Al Maktabah
 									</NavbarBrand>
                   <NavbarToggler onClick={this.toggle} style={{ border: 'none' }} />
                   <Collapse isOpen={this.state.isOpen} navbar>

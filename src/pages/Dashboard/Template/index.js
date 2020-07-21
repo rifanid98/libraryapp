@@ -36,7 +36,7 @@ import { useEventListener } from 'utils';
 import style from './dashboard.module.css';
 
 const Template = (props) => {
-  const [auth] = useState(props.auth)
+  const [auth, setAuth] = useState(props.auth)
   const [isOpen, setIsOpen] = useState(false);
   const [sidebarOpened, setSidebarOpened] = useState(false);
   const [contentWidth, setContentWidth] = useState(0);
@@ -58,12 +58,19 @@ const Template = (props) => {
     document.title = `Dashboard | ${props.title}`;
   }, [props])
 
+  useEffect(() => {
+    setAuth({
+      image: props.auth.image,
+      full_name: props.auth.full_name
+    })
+  }, [props.auth])
 
   function updateDimensions() {
     const width = $('#content').width()
     setContentWidth(width);
     $('#navbar').width(contentWidth);
   }
+
   const handler = useCallback(() => {
     updateDimensions();
   }, [contentWidth])
@@ -124,7 +131,7 @@ const Template = (props) => {
                 </div>
                 {/* navbar brand top */}
                 <NavbarBrand href="/" id={style.navbarBrandTop}>
-                  <img src={bookIcon} alt="" />Library
+                  <img src={bookIcon} alt="" />Al Maktabah
 									</NavbarBrand>
                 <NavbarToggler onClick={() => toggle()} style={{ border: 'none' }} />
                 <Collapse isOpen={isOpen} navbar>

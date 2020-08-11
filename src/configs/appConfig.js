@@ -4,7 +4,7 @@ const origin = window.location.origin;
 const constants = {
   dev: {
     url: {
-      api: "http://localhost:3000/libraryapp-api",
+      api: "http://192.168.42.15:3000/libraryapp-api",
       assets: "../assets",
       origin: origin
     }

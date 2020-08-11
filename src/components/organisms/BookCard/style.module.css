@@ -2,7 +2,7 @@
     background-size: cover;
     background-repeat: none !important;
     margin-bottom: 40px;
-    border-radius: 15px !important;
+    /* border-radius: 15px !important; */
     box-shadow: 1px 3px 10px 10px rgba(185, 185, 185, 0.267);
     cursor: pointer;
 }
@@ -10,18 +10,18 @@
 .cardBody {
     margin: -1px;
     background-color: white;
-    border-radius: 0px 0px 15px 15px;
+    /* border-radius: 0px 0px 15px 15px; */
     z-index: 5;
 }
 
 .imgWrapper {
-    border-radius: 14px 14px 0 0;
+    /* border-radius: 14px 14px 0 0; */
     height: 130px;
-    border-radius: 14px 14px 0 0;
+    /* border-radius: 14px 14px 0 0; */
 }
 
 .imgWrapper img {
-    border-radius: 14px 14px 0 0;
+    /* border-radius: 14px 14px 0 0; */
     background-size: cover;
 }
 

@@ -166,7 +166,7 @@ const Template = (props) => {
                 </Collapse>
                 {/* navbar brand bottom */}
                 <NavbarBrand href="/" id={style.navbarBrandBottom}>
-                  <img src={bookIcon} alt="" />Library
+                  <img src={bookIcon} alt="" />Al Maktabah
 									</NavbarBrand>
               </Navbar>
             </Col>

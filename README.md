@@ -4,7 +4,7 @@
   <image src="https://github.com/rifanid98/libraryapp/blob/master/src/assets/images/logo.png" alt="libraryapp logo">
 </p>
 <p align="center">
-  Built with React Native, Build with love.
+  Built with React.Js, Build with love.
 </p>
 
 ## :memo: Table Of Content
@@ -60,12 +60,12 @@ This page is used to manage data.
 ## Screenshots
 
 <div align="center">
-    <img width="250" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png">   
-    <img width="250" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png">
+    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png">   
+    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png">
 </div>
 <div align="center">
-    <img width="250" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png">   
-    <img width="250" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png">
+    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png">   
+    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png">
 </div>
 
 ## Usage

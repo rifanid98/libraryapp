@@ -85,21 +85,29 @@ const Books = (props) => {
       <FormGroup>
         <Label for="">Author</Label>
         <Input type="select" name="author_id" required>
-          {data.authors.map(author => {
-            return (
-              <option key={author.author_id} value={author.author_id}>{author.name}</option>
-            )
-          })}
+          {data.authors 
+            ? data.authors.length > 0
+              ? data.authors.map(author => {
+                return (
+                  <option key={author.author_id} value={author.author_id}>{author.name}</option>
+                )
+              })
+              : <></>
+            : <></>}
         </Input>
       </FormGroup>
       <FormGroup>
         <Label for="">Genre</Label>
         <Input type="select" name="genre_id" required>
-          {data.genres.map(genre => {
-            return (
-              <option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
-            )
-          })}
+          {data.genres
+            ? data.genres.length > 0
+              ? data.genres.map(genre => {
+                return (
+                  <option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
+                )
+              })
+              : <></>
+            : <></>}
         </Input>
       </FormGroup>
       <FormGroup>
@@ -137,21 +145,29 @@ const Books = (props) => {
       <FormGroup>
         <Label for="">Author</Label>
         <Input type="select" name="author_id" defaultValue={book.author_id} required>
-          {data.authors.map(author => {
-            return (
-              <option key={author.author_id} value={author.author_id}>{author.name}</option>
-            )
-          })}
+          {data.authors
+            ? data.authors.length > 0
+              ? data.authors.map(author => {
+                return (
+                  <option key={author.author_id} value={author.author_id}>{author.name}</option>
+                )
+              })
+              : <></>
+            : <></>}
         </Input>
       </FormGroup>
       <FormGroup>
         <Label for="">Genre</Label>
         <Input type="select" name="genre_id" defaultValue={book.genre_id} required>
-          {data.genres.map(genre => {
-            return (
-              <option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
-            )
-          })}
+          {data.genres
+            ? data.genres.length > 0
+              ? data.genres.map(genre => {
+                return (
+                  <option key={genre.genre_id} value={genre.genre_id}>{genre.name}</option>
+                )
+              })
+              : <></>
+            : <></>}
         </Input>
       </FormGroup>
       <FormGroup>

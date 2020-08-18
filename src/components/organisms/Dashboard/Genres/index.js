@@ -23,35 +23,37 @@ const Genres = (props) => {
     { title: 'Action' }
   ]
   const tableBody = <>
-    {
-      data.genres.map((genre, index) => {
-        return (
-          <tr>
-            <th scope="row">{index + 1}</th>
-            <td>{genre.name}</td>
-            <td className="">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <Button color="warning
+    {data.genres
+      ? data.genres.length > 0
+        ? data.genres.map((genre, index) => {
+          return (
+            <tr>
+              <th scope="row">{index + 1}</th>
+              <td>{genre.name}</td>
+              <td className="">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <Button color="warning
               " style={{
+                      width: '50px',
+                      padding: '0px '
+                    }} onClick={() => { editGenre(genre.genre_id) }}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Button>
+                  <Button color="danger" style={{
                     width: '50px',
-                    padding: '0px '
-                  }} onClick={() => { editGenre(genre.genre_id) }}>
-                  <FontAwesomeIcon icon={faEdit} />
-                </Button>
-                <Button color="danger" style={{
-                  width: '50px',
-                  padding: '0px ',
-                  display: `${user.role > 1 ? 'none' : 'inline-item'}`
-                }}
-                  onClick={() => { deleteGenre(genre.genre_id) }}>
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </Button>
-              </div>
-            </td>
-          </tr>
-        )
-      })
-    }
+                    padding: '0px ',
+                    display: `${user.role > 1 ? 'none' : 'inline-item'}`
+                  }}
+                    onClick={() => { deleteGenre(genre.genre_id) }}>
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          )
+        })
+        : <></>
+      : <></>}
   </>
   const addModalBody = <div>
     <Form onSubmit={(e) => addGenre(e)}>

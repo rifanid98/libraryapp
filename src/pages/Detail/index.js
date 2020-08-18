@@ -128,7 +128,7 @@ class Detail extends Component {
 		await Axios({
 			method: 'GET',
 			// url: `${apiUri.histories.getPendingHistories}/all/${userId}`,
-			url: `${apiUri.histories.getPendingHistories}/${bookId}/${userId}`,
+			url: `${apiUri.histories}/${bookId}/${userId}`,
 			headers: {
 				authorization: token
 			}

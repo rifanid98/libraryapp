@@ -8,6 +8,7 @@ import { addBook, deleteBook, patchBook, getBooks } from 'modules';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { appConfig } from 'configs';
 
 const Books = (props) => {
   const [user] = useState(props.auth.data)
@@ -41,7 +42,7 @@ const Books = (props) => {
           <tr>
             <th scope="row">{index + 1}</th>
             <td>
-              <img src={book.image} alt="" width="70" />
+              <img src={appConfig.url.assets + '/' + book.image} alt="" width="70" />
             </td>
             <td>{book.title}</td>
             <td>{book.author_name}</td>

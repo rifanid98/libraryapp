@@ -70,7 +70,7 @@ This page is used to manage data.
 
 ## Usage
 
--   For common users, you can acces the website at [libraryapp.com]() or download the release apk at [google drive]()
+-   For common users, you can access the website at [libraryapp.com]() or download the release apk at [google drive]()
 -   For developer, you can continue to follow the instructions bellow.
 
 ### Prerequisites
@@ -86,12 +86,15 @@ Before you begin, ensure you have met the following requirements:
 -   Go to your desktop directory or your dedicated projects folder.
 -   Open your favourite terminal or command prompt (use git bash if you use windows os).
 -   Follow these command :
-    `git clone https://github.com/rifanid98/libraryapp`
-    `cd libraryapp`
-    `npm install`
+    ```
+    git clone https://github.com/rifanid98/libraryapp
+    cd libraryapp
+    npm install
+    ```
 -   Open `env` environtment file at `src/configs/env.js`, and change following config :
     -   change `API_URL` value to `localhost:3000/libraryapp-api`
     -   change `ORIGIN` value to localhost
+-   You need to install server of this app to run. Go to [Related Project](#related)
 -   You are ready to start.
 
 ## Contributing to this project (Libraryapp aka Al Maktabah)

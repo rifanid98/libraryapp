@@ -246,7 +246,7 @@ class Detail extends Component {
 					{/* Borrow */}
 					<Col md="3" className={style.borrow} >
 						<Row>
-							<div className={style.image} style={{ background: `url(${this.state.book.image})` }}></div>
+							<div className={style.image} style={{ background: `url(${appConfig.url.assets}/${this.state.book.image})` }}></div>
 						</Row>
 						<Row>
 							<div className={style.buttonWrapper} style={{ display: this.state.book.status === 0 ? `block` : `none` }}>

@@ -60,12 +60,12 @@ This page is used to manage data.
 ## Screenshots
 
 <div align="center">
-    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png">   
-    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png">
+    <img width="350" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/login.png">   
+    <img width="350" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/signup.png">
 </div>
 <div align="center">
-    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png">   
-    <img width="300" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png">
+    <img width="350" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/home.png">   
+    <img width="350" src="https://github.com/rifanid98/libraryapp/blob/master/screenshots/dashboard.png">
 </div>
 
 ## Usage

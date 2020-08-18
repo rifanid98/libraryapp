@@ -23,35 +23,37 @@ const Authors = (props) => {
     { title: 'Action' }
   ]
   const tableBody = <>
-    {
-      data.authors.map((author, index) => {
-        return (
-          <tr>
-            <th scope="row">{index + 1}</th>
-            <td>{author.name}</td>
-            <td className="">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <Button color="warning
+    {data.authors
+      ? data.authors.length > 0
+        ? data.authors.map((author, index) => {
+          return (
+            <tr>
+              <th scope="row">{index + 1}</th>
+              <td>{author.name}</td>
+              <td className="">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <Button color="warning
               " style={{
+                      width: '50px',
+                      padding: '0px '
+                    }} onClick={() => { editAuthor(author.author_id) }}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </Button>
+                  <Button color="danger" style={{
                     width: '50px',
-                    padding: '0px '
-                  }} onClick={() => { editAuthor(author.author_id) }}>
-                  <FontAwesomeIcon icon={faEdit} />
-                </Button>
-                <Button color="danger" style={{
-                  width: '50px',
-                  padding: '0px ',
-                  display: `${user.role > 1 ? 'none' : 'inline-item'}`
-                }}
-                  onClick={() => { deleteAuthor(author.author_id) }}>
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </Button>
-              </div>
-            </td>
-          </tr>
-        )
-      })
-    }
+                    padding: '0px ',
+                    display: `${user.role > 1 ? 'none' : 'inline-item'}`
+                  }}
+                    onClick={() => { deleteAuthor(author.author_id) }}>
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          )
+        })
+        : <></>
+      : <></>}
   </>
   const addModalBody = <div>
     <Form onSubmit={(e) => addAuthor(e)}>

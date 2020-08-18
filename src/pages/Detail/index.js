@@ -11,7 +11,7 @@ import {
 import Swal from 'sweetalert2';
 
 // custom config
-import { apiUri } from 'configs';
+import { apiUri, appConfig } from 'configs';
 import { decodeJwtToken, convertDate } from 'utils';
 import { getBooks, getAuthors, getCategories, patchBook, borrowBook, returnBook } from 'modules';
 
@@ -216,7 +216,7 @@ class Detail extends Component {
 				{/* Jumbotron */}
 				<Row>
 					<Col className={style.headline}>
-						<Jumbotron fluid className={style.jumbotron} style={{ background: `url(${this.state.book.image})` }}>
+						<Jumbotron fluid className={style.jumbotron} style={{ background: `url(${appConfig.url.assets}/${this.state.book.image})` }}>
 						</Jumbotron>
 					</Col>
 				</Row>

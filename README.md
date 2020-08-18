@@ -94,7 +94,7 @@ Before you begin, ensure you have met the following requirements:
 -   Open `env` environtment file at `src/configs/env.js`, and change following config :
     -   change `API_URL` value to `localhost:3000/libraryapp-api`
     -   change `ORIGIN` value to localhost
--   You need to install server of this app to run. Go to [Related Project](#related)
+-   You need to install server of this app to run. Go to [Related Project](https://github.com/rifanid98/libraryapp#related)
 -   You are ready to start.
 
 ## Contributing to this project (Libraryapp aka Al Maktabah)

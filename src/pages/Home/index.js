@@ -34,6 +34,7 @@ import { faBars, faSearch } from '@fortawesome/free-solid-svg-icons'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import style from './home.module.css';
+import { appConfig } from 'configs';
 
 class Home extends Component {
   constructor(props) {
@@ -566,7 +567,7 @@ class Home extends Component {
                 {/* Profile Avatar */}
                 <Row>
                   <Col className={style.profileAvatar}>
-                    <img src={this.state.user.image} alt="" />
+                    <img src={appConfig.url.assets + '/' + this.state.user.image} alt="" />
                     {/* <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" alt="" /> */}
                   </Col>
                 </Row>
@@ -743,7 +744,7 @@ class Home extends Component {
             </Row>
           </Col>
         </Row>
-      </Container >
+      </Container>
     )
   }
 }

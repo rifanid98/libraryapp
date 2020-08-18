@@ -8,6 +8,7 @@ import { addUser, deleteUser, patchUser, getUsers } from 'modules';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { appConfig } from 'configs';
 
 const Users = (props) => {
   const [auth] = useState(props.auth.data)
@@ -36,7 +37,7 @@ const Users = (props) => {
           <tr>
             <th scope="row">{index + 1}</th>
             <td>
-              <img src={user.image} width="70" alt="" />
+              <img src={appConfig.url.assets + '/' + user.image} width="70" alt="" />
             </td>
             <td>{user.username}</td>
             <td>{user.full_name}</td>

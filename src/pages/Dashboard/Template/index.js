@@ -34,6 +34,7 @@ import { useEventListener } from 'utils';
 
 // custom style
 import style from './dashboard.module.css';
+import { appConfig } from 'configs';
 
 const Template = (props) => {
   const [auth, setAuth] = useState(props.auth)
@@ -96,7 +97,7 @@ const Template = (props) => {
               {/* Profile Avatar */}
               <Row>
                 <Col className={style.profileAvatar}>
-                  <img src={auth.image} alt="" />
+                  <img src={appConfig.url.assets + '/' + auth.image} alt="" />
                   {/* <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&auto=format&fit=crop&w=1441&q=80" alt="" /> */}
                 </Col>
               </Row>

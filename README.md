@@ -1,10 +1,10 @@
 # <p align="center">Al Maktabah</p>
 
 <p align="center">
-  <image src="https://github.com/rifanid98/libraryapp/blob/master/src/assets/images/logo.png" alt="libraryapp logo">
+  <image src="https://github.com/rifanid98/almaktabah/blob/master/src/assets/images/logo.png" width="300" 
 </p>
 <p align="center">
-  Built with React.Js, Build with love.
+  Built with ReactJs, Build with love.
 </p>
 
 ## :memo: Table Of Content

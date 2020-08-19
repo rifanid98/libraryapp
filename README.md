@@ -70,7 +70,7 @@ This page is used to manage data.
 
 ## Usage
 
--   For common users, you can access the website at [libraryapp.com](http://bit.ly/almaktabah) or download the release apk at [google drive](https://drive.google.com/file/d/1aiLuEH8av7U1BnmwylLmGMQurPzW8u_n/view?usp=sharing)
+-   For common users, you can access the website at [libraryapp.com](http://bit.ly/almaktabah) or download the release apk at [google drive](https://drive.google.com/file/d/1O9phPZfWu4-hGVL1tgrUreyJmci8TzKc/view?usp=sharing)
 -   For developer, you can continue to follow the instructions bellow.
 
 ### Prerequisites
